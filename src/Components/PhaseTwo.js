@@ -12,7 +12,7 @@ import PhaseThree from './PhaseThree'
         
         render(){
             return(
-                this.props.songObj.beats.length > 0 ? <div><p>Beat ID: {this.filterSelectedBeats()}</p><PhaseThree songObj={this.props.songObj} beatId={this.filterSelectedBeats()}/></div> : null
+                this.props.songObj.beats.length > 0 ? <div><p>Beat ID: {this.filterSelectedBeats()}</p></div> : null
             )
         }
     }

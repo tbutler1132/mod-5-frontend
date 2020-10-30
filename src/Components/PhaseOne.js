@@ -6,13 +6,13 @@ import PhaseTwo from './PhaseTwo'
         filterSelectedImages = () => {
             const winner = this.props.songObj.ref_imgs.filter(image => image.selected)
             if (winner){
-                return winner[0].title
+                return winner[0].img_url
             }
         }
 
         render(){
             return(
-                this.props.songObj.ref_imgs.length > 0 ? <div><p>{this.filterSelectedImages()}</p> <PhaseTwo songObj={this.props.songObj}/></div> : null
+                this.props.songObj.ref_imgs.length > 0 ? <div><img src={this.filterSelectedImages()} width="250" height="200"/> </div> : null
             )
         }
     }
