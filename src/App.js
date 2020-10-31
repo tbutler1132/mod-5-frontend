@@ -8,7 +8,7 @@ function App() {
   return (
     <div>
       <h1>Album 1</h1>
-      <Route path="/album" component={Album} /> 
+      <Route path="/album/1" component={Album} /> 
     </div>
   );
 }

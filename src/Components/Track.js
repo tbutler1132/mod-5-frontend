@@ -8,7 +8,22 @@ import PhaseFive from './PhaseFive'
 class Track extends React.Component {
 
     state = {
-        trackClicked: false
+        trackClicked: false,
+        pollResults: []
+    }
+
+    componentDidMount = () => {
+        fetch("http://localhost:3000/results")
+        .then(r => r.json())
+        .then(results => this.setState({pollResults: results}))
+    }
+
+    referenceResults = () => {
+        return this.state.pollResults.filter (result => result.poll.phase === 1)
+    }
+
+    beatResults = () => {
+        return this.state.pollResults.filter (result => result.poll.phase === 2)
     }
 
     trackClickHandler = () => {
@@ -28,8 +43,8 @@ class Track extends React.Component {
                 
                 {this.state.trackClicked === true ?
                 <div>
-                <PhaseOne songObj={this.props.songObj}/>
-                <PhaseTwo songObj={this.props.songObj}/>
+                <PhaseOne songObj={this.props.songObj} referenceResults={this.referenceResults()}/>
+                <PhaseTwo songObj={this.props.songObj} beatResults={this.beatResults()}/>
                 <PhaseThree songObj={this.props.songObj} />
                 <PhaseFour songObj={this.props.songObj}/>
                 <PhaseFive songObj={this.props.songObj}/>
