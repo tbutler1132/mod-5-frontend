@@ -48,6 +48,7 @@ class Track extends React.Component {
                 <PhaseThree songObj={this.props.songObj} />
                 <PhaseFour songObj={this.props.songObj}/>
                 <PhaseFive songObj={this.props.songObj}/>
+                <p>vote/submit buttons</p>
                 </div>
                 : 
                 null
