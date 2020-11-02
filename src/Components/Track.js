@@ -4,6 +4,9 @@ import PhaseTwo from './PhaseTwo'
 import PhaseThree from './PhaseThree'
 import PhaseFour from './PhaseFour'
 import PhaseFive from './PhaseFive'
+import { Route, Switch } from 'react-router-dom'
+import Poll from './Poll'
+import SubmitForm from './SubmitForm'
 
 class Track extends React.Component {
 
@@ -33,13 +36,15 @@ class Track extends React.Component {
             this.setState({trackClicked: false})
         }
         console.log(this.state.trackClicked)
+
+        // PUT FETCH REQUEST IN CLICKHANDLER?????
     }
 
     render(){
         return(
             <div className="track" >
                 <h1 onClick={this.trackClickHandler}>{this.props.songObj.title}</h1>
-                <h3>Phase: {this.props.songObj.phase}</h3>
+                <h3>Phase: {this.props.songObj.phase === 6 ? "Complete" :  this.props.songObj.phase}</h3>
                 
                 {this.state.trackClicked === true ?
                 <div>
@@ -48,7 +53,11 @@ class Track extends React.Component {
                 <PhaseThree songObj={this.props.songObj} />
                 <PhaseFour songObj={this.props.songObj}/>
                 <PhaseFive songObj={this.props.songObj}/>
-                <p>vote/submit buttons</p>
+                <button>Submit</button>
+                <button>Vote on poll</button>
+                <Poll  songObj={this.props.songObj}/>
+                <SubmitForm songObj={this.props.songObj}/>
+                {/* <Route path="poll" component={Poll} />  */}
                 </div>
                 : 
                 null
