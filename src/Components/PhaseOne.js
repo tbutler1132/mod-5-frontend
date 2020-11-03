@@ -8,6 +8,14 @@ class PhaseOne extends React.Component {
         leaderboard: []
     }
 
+    componentDidMount = () => {
+        fetch("http://localhost:3000/ref_imgs")
+        .then(r => r.json())
+        .then(images =>{ 
+            this.setState({imagesArray: images})
+        })
+    }
+
 
 // COMPLETED
         filterSelectedImages = () => {
@@ -18,14 +26,7 @@ class PhaseOne extends React.Component {
         }
 
 // IN PROGRESS
-        componentDidMount = () => {
-            fetch("http://localhost:3000/ref_imgs")
-            .then(r => r.json())
-            .then(images =>{ 
-                this.setState({imagesArray: images})
 
-            })
-        }
 
         createLeaderBoard = () => {
             const wins = this.state.imagesArray.map(image => image.results.filter(result => result.win === true).length)
@@ -39,8 +40,8 @@ class PhaseOne extends React.Component {
               const sortedByWins = imagesWithWins.sort(function (l, r) {
                 return r.wins - l.wins;
             });
-            console.log(sortedByWins)
-            this.setState({leaderboard: sortedByWins})
+            // this.setState({leaderboard: sortedByWins})
+            return sortedByWins
         }
 
         
@@ -48,14 +49,17 @@ class PhaseOne extends React.Component {
         
         render(){
             // this.createLeaderBoard()
-            console.log(this.state)
             if (this.props.songObj.phase > 1) {
                 return(
                     this.props.songObj.ref_imgs.length > 0 ? <div><img src={this.filterSelectedImages()} width="250" height="200"/> </div> : null
                 )
             } else if (this.props.songObj.phase === 1) {
                 return(
-                <p>leaderboard here</p>
+                <div>
+                    <p>1. {this.createLeaderBoard()[0] !== undefined ? this.createLeaderBoard()[0].image.title : null}</p>
+                    <p>2. {this.createLeaderBoard()[1] !== undefined ? this.createLeaderBoard()[1].image.title : null}</p>
+                    <p>3. {this.createLeaderBoard()[2] !== undefined ? this.createLeaderBoard()[2].image.title : null}</p>
+                </div>
                 )
             } else {
                 return(

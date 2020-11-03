@@ -18,6 +18,8 @@ class Track extends React.Component {
         pollClickedAgain: false,
     }
 
+    
+    
     componentDidMount = () => {
         fetch("http://localhost:3000/results")
         .then(r => r.json())
@@ -65,6 +67,24 @@ class Track extends React.Component {
             this.setState({currentPollId: pollObj.id})
         })
     }
+
+
+// Phase 1 Leaderboard
+
+// createLeaderBoard = () => {
+//     const wins = this.state.imagesArray.map(image => image.results.filter(result => result.win === true).length)
+//     const imagesWithWins = []
+//     this.state.imagesArray.forEach(function(v,i){
+//         const obj = {};
+//         obj.image = v;
+//         obj.wins = wins[i];
+//         imagesWithWins.push(obj);
+//       });
+//       const sortedByWins = imagesWithWins.sort(function (l, r) {
+//         return r.wins - l.wins;
+//     });
+//     this.setState({leaderboard: sortedByWins})
+// }
     
 
     render(){
@@ -80,7 +100,7 @@ class Track extends React.Component {
                 <PhaseThree songObj={this.props.songObj} />
                 <PhaseFour songObj={this.props.songObj}/>
                 <PhaseFive songObj={this.props.songObj}/>
-                {this.props.songObj.phase === 6 ? null :<button>Submit</button>}
+                {/* {this.props.songObj.phase === 6 ? null :<button>Submit</button>} */}
                 {this.props.songObj.phase === 6 ? null : <button onClick={this.pollClickHandler}>Vote on poll</button>}
                 {this.state.pollClickedFirstTime === true ? <Poll  songObj={this.props.songObj} pollId={this.state.currentPollId}/> : null}
                 <SubmitForm songObj={this.props.songObj}/>
