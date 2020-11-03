@@ -12,7 +12,10 @@ class Track extends React.Component {
 
     state = {
         trackClicked: false,
-        pollResults: []
+        pollResults: [],
+        pollClickedFirstTime: false,
+        currentPollId: "",
+        pollClickedAgain: false,
     }
 
     componentDidMount = () => {
@@ -29,16 +32,40 @@ class Track extends React.Component {
         return this.state.pollResults.filter (result => result.poll.phase === 2)
     }
 
-    trackClickHandler = () => {
+    trackClickHandler = (e) => {
         if (this.state.trackClicked === false){
             this.setState({trackClicked: true})
         } else {
             this.setState({trackClicked: false})
         }
-        console.log(this.state.trackClicked)
-
         // PUT FETCH REQUEST IN CLICKHANDLER?????
     }
+
+    pollClickHandler = () => {
+        console.log(this.props.songObj.phase)
+        if (this.state.pollClickedFirstTime === false){
+            this.setState({pollClickedFirstTime: true})
+        } 
+        const newPoll = {
+            phase: this.props.songObj.phase,
+            user_id: 34
+        }
+        const options = {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              "accept": "application/json"
+            },
+            body: JSON.stringify({ poll: newPoll })
+          }
+        fetch("http://localhost:3000/polls", options)
+        .then(r => r.json())
+        .then(pollObj => {
+            console.log(pollObj.id)
+            this.setState({currentPollId: pollObj.id})
+        })
+    }
+    
 
     render(){
         return(
@@ -53,9 +80,9 @@ class Track extends React.Component {
                 <PhaseThree songObj={this.props.songObj} />
                 <PhaseFour songObj={this.props.songObj}/>
                 <PhaseFive songObj={this.props.songObj}/>
-                <button>Submit</button>
-                <button>Vote on poll</button>
-                <Poll  songObj={this.props.songObj}/>
+                {this.props.songObj.phase === 6 ? null :<button>Submit</button>}
+                {this.props.songObj.phase === 6 ? null : <button onClick={this.pollClickHandler}>Vote on poll</button>}
+                {this.state.pollClickedFirstTime === true ? <Poll  songObj={this.props.songObj} pollId={this.state.currentPollId}/> : null}
                 <SubmitForm songObj={this.props.songObj}/>
                 {/* <Route path="poll" component={Poll} />  */}
                 </div>

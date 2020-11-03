@@ -22,7 +22,7 @@ class PhaseTwo extends React.Component {
                 )
             else if (this.props.songObj.phase === 2){
                 return (
-                    <p>In progress</p>
+                    <p>Leaderboard here</p>
                 )
             }
             else {

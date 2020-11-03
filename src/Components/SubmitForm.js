@@ -17,11 +17,34 @@ class SubmitForm extends React.Component{
         this.setState({ [e.target.name]: e.target.value })
     }
 
+    phaseOneSubmitHandler = (e) => {
+        e.preventDefault()
+        const newRefImg = {
+            title: this.state.imageTitle,
+            img_url: this.state.imageUrl,
+            selected: false,
+            user_id: 34,
+            song_id: this.props.songObj.id
+        }
+        const options = {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              "accept": "application/json"
+            },
+            body: JSON.stringify({ ref_img: newRefImg })
+          }
+        fetch("http://localhost:3000/ref_imgs", options)
+        .then(r => r.json())
+        .then(refImgObj => console.log(refImgObj))
+    }
+
     phaseTwoSubmitHandler = (e) => {
         e.preventDefault()
         const newBeat = {
             bpm: this.state.beatBpm,
             key_sig: this.state.beatKeySig,
+            selected: false,
             user_id: 34,
             song_id: this.props.songObj.id
         }
@@ -48,10 +71,17 @@ class SubmitForm extends React.Component{
                     <button>Add Beat</button>
                 </form>
             )
-        } else {
+        } else if (this.props.songObj.phase === 1) {
             return(
-                null
+                <form onSubmit={this.phaseOneSubmitHandler}>
+                <input type="text" name="imageTitle" value={this.state.imageTitle} placeholder="Title" onChange={this.changeHandler} />
+                <input type="text" name="imageUrl" value={this.state.imageUrl} placeholder="URL" onChange={this.changeHandler} />
+                {/* <input type="text" name="beatUrl" value={this.state.beatUrl} onChange={this.changeHandler} /> */}
+                <button>Add Image</button>
+            </form>
             )
+        } else {
+            return(null)
         }
     }
 }

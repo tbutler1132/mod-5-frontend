@@ -55,7 +55,7 @@ class PhaseOne extends React.Component {
                 )
             } else if (this.props.songObj.phase === 1) {
                 return(
-                <p>{console.log(this.state)}</p>
+                <p>leaderboard here</p>
                 )
             } else {
                 return(
