@@ -1,19 +1,20 @@
 import React from 'react'
-import PhaseTwo from './PhaseTwo'
+
+
 
 class PhaseOne extends React.Component {
 
     state = {
-        imagesArray: [],
+        // imagesArray: [],
         leaderboard: []
     }
 
     componentDidMount = () => {
-        fetch("http://localhost:3000/ref_imgs")
-        .then(r => r.json())
-        .then(images =>{ 
-            this.setState({imagesArray: images})
-        })
+        // fetch("http://localhost:3000/ref_imgs")
+        // .then(r => r.json())
+        // .then(images =>{ 
+        //     this.setState({imagesArray: images})
+        // })
     }
 
 
@@ -21,17 +22,17 @@ class PhaseOne extends React.Component {
         filterSelectedImages = () => {
             const winner = this.props.songObj.ref_imgs.filter(image => image.selected)
             if (winner){
-                return winner[0].img_url
+                return winner[0]
             }
         }
 
 // IN PROGRESS
 
-
+        //Images array sum all wins, if they exceed a certain number than take that leader
         createLeaderBoard = () => {
-            const wins = this.state.imagesArray.map(image => image.results.filter(result => result.win === true).length)
+            const wins = this.props.imagesArray.map(image => image.results.filter(result => result.win === true).length)
             const imagesWithWins = []
-            this.state.imagesArray.forEach(function(v,i){
+            this.props.imagesArray.forEach(function(v,i){
                 const obj = {};
                 obj.image = v;
                 obj.wins = wins[i];
@@ -48,10 +49,10 @@ class PhaseOne extends React.Component {
         
         
         render(){
-            // this.createLeaderBoard()
+            console.log(this.createLeaderBoard())
             if (this.props.songObj.phase > 1) {
                 return(
-                    this.props.songObj.ref_imgs.length > 0 ? <div><img src={this.filterSelectedImages()} width="250" height="200"/> </div> : null
+                    this.props.songObj.ref_imgs.length > 0 ? <div><img src={this.props.winningImage.img_url} width="250" height="200"/> </div> : null
                 )
             } else if (this.props.songObj.phase === 1) {
                 return(

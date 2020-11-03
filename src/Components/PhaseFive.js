@@ -42,7 +42,7 @@ class PhaseFive extends React.Component {
         if (this.props.songObj.phase > 5){
             return(
                 <div>
-                    { this.props.songObj.masters.length  > 0 ? <p>Master Id: {this.filterMasters()}</p> : null}
+                    { this.props.songObj.masters.length  > 0 ? <p>Master Id: {this.props.winningMaster}</p> : null}
                 </div>
             )
         } else if (this.props.songObj === 5){

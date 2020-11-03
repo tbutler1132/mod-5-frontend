@@ -9,7 +9,13 @@ class SubmitForm extends React.Component{
         
         beatBpm: "",
         beatKeySig: "",
-        beatUrl: ""
+        beatUrl: "",
+
+        vocalUrl: "",
+
+        mixUrl: "",
+
+        masterUrl: ""
     }
 
     changeHandler = (e) => {
@@ -61,6 +67,75 @@ class SubmitForm extends React.Component{
         .then(beatObj => console.log(beatObj))
     }
 
+    // phaseThreeSubmitHandler = (e) => {
+    //     e.preventDefault()
+    //     const newBeat = {
+    //         bpm: this.state.beatBpm,
+    //         key_sig: this.state.beatKeySig,
+    //         selected: false,
+    //         user_id: 37,
+    //         song_id: this.props.songObj.id
+    //     }
+    //     const options = {
+    //         method: "POST",
+    //         headers: {
+    //           "content-type": "application/json",
+    //           "accept": "application/json"
+    //         },
+    //         body: JSON.stringify({ beat: newBeat })
+    //       }
+    //     fetch("http://localhost:3000/beats", options)
+    //     .then(r => r.json())
+    //     .then(beatObj => console.log(beatObj))
+    // }
+
+    // phaseFourSubmitHandler = (e) => {
+    //     e.preventDefault()
+    //     const newBeat = {
+    //         bpm: this.state.beatBpm,
+    //         key_sig: this.state.beatKeySig,
+    //         selected: false,
+    //         user_id: 37,
+    //         song_id: this.props.songObj.id
+    //     }
+    //     const options = {
+    //         method: "POST",
+    //         headers: {
+    //           "content-type": "application/json",
+    //           "accept": "application/json"
+    //         },
+    //         body: JSON.stringify({ beat: newBeat })
+    //       }
+    //     fetch("http://localhost:3000/beats", options)
+    //     .then(r => r.json())
+    //     .then(beatObj => console.log(beatObj))
+    // }
+
+    // phaseFiveSubmitHandler = (e) => {
+    //     e.preventDefault()
+    //     const newBeat = {
+    //         bpm: this.state.beatBpm,
+    //         key_sig: this.state.beatKeySig,
+    //         selected: false,
+    //         user_id: 37,
+    //         song_id: this.props.songObj.id
+    //     }
+    //     const options = {
+    //         method: "POST",
+    //         headers: {
+    //           "content-type": "application/json",
+    //           "accept": "application/json"
+    //         },
+    //         body: JSON.stringify({ beat: newBeat })
+    //       }
+    //     fetch("http://localhost:3000/beats", options)
+    //     .then(r => r.json())
+    //     .then(beatObj => console.log(beatObj))
+    // }
+    
+
+    
+    
     render(){
         if (this.props.songObj.phase === 2){
             return(
@@ -68,7 +143,7 @@ class SubmitForm extends React.Component{
                     <input type="text" name="beatBpm" value={this.state.beatBpm} placeholder="BPM" onChange={this.changeHandler} />
                     <input type="text" name="beatKeySig" value={this.state.beatKeySig} placeholder="Key" onChange={this.changeHandler} />
                     {/* <input type="text" name="beatUrl" value={this.state.beatUrl} onChange={this.changeHandler} /> */}
-                    <button>Add Beat</button>
+                    <button>Submit beat</button>
                 </form>
             )
         } else if (this.props.songObj.phase === 1) {
@@ -77,10 +152,36 @@ class SubmitForm extends React.Component{
                 <input type="text" name="imageTitle" value={this.state.imageTitle} placeholder="Title" onChange={this.changeHandler} />
                 <input type="text" name="imageUrl" value={this.state.imageUrl} placeholder="URL" onChange={this.changeHandler} />
                 {/* <input type="text" name="beatUrl" value={this.state.beatUrl} onChange={this.changeHandler} /> */}
-                <button>Add Image</button>
+                <button>Submit image</button>
             </form>
             )
-        } else {
+        } else if (this.props.songObj.phase === 3) {
+            return(
+                <form onSubmit={this.phaseOneSubmitHandler}>
+                <input type="text" name="vocalUrl" value={this.state.vocalUrl} placeholder="URL" onChange={this.changeHandler} />
+                {/* <input type="text" name="beatUrl" value={this.state.beatUrl} onChange={this.changeHandler} /> */}
+                <button>Submit vocal</button>
+            </form>
+            )
+        } else if (this.props.songObj.phase === 4) {
+            return(
+                <form onSubmit={this.phaseOneSubmitHandler}>
+                    <input type="text" name="mixUrl" value={this.state.mixUrl} placeholder="URL" onChange={this.changeHandler} />
+                    {/* <input type="text" name="beatUrl" value={this.state.beatUrl} onChange={this.changeHandler} /> */}
+                    <button>Submit mix</button>
+                </form> 
+            )
+        } else if (this.props.songObj.phase === 5) {
+            return(
+                <form onSubmit={this.phaseOneSubmitHandler}>
+                    <input type="text" name="masterUrl" value={this.state.masterUrl} placeholder="URL" onChange={this.changeHandler} />
+                    {/* <input type="text" name="beatUrl" value={this.state.beatUrl} onChange={this.changeHandler} /> */}
+                    <button>Submit master</button>
+                </form> 
+            )
+        }
+        
+        else {
             return(null)
         }
     }

@@ -1,11 +1,12 @@
 import React from 'react'
 import PhaseThree from './PhaseThree'
+import SubmitForm from './SubmitForm'
 
 class PhaseTwo extends React.Component {
 
     state = {
         beatsArray: [],
-        leaderboard: []
+        highestScore: "",
     }
 
     componentDidMount = () => {
@@ -30,7 +31,7 @@ createBeatsLeaderBoard = () => {
       const sortedByWins = beatsWithWins.sort(function (l, r) {
         return r.wins - l.wins;
     });
-    // this.setState({leaderboard: sortedByWins})
+    // sortedByWins !== undefined ? this.setState({highestScore: sortedByWins[0].wins}) : console.log("ass")
     return sortedByWins
 }
 
@@ -40,15 +41,16 @@ createBeatsLeaderBoard = () => {
     filterSelectedBeats = () => {
         const winner = this.props.songObj.beats.filter(beat => beat.selected)
             if (winner){
-                return winner[0].id
+                return winner[0]
             }
     }
 
         
         render(){
+            console.log(this.state.highestScore)
             if (this.props.songObj.phase > 2)
                 return(
-                    this.props.songObj.beats.length > 0 ? <div><p>Beat ID: {this.filterSelectedBeats()}</p></div> : null
+                    this.props.songObj.beats.length > 0 ? <div><p>Beat ID: {this.props.winningBeat.id}</p></div> : null
                 )
             else if (this.props.songObj.phase === 2){
                 return (

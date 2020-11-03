@@ -43,7 +43,7 @@ class PhaseFour extends React.Component {
         if (this.props.songObj.phase > 4){
             return(
                 <div>
-                    {this.props.songObj.mixes.length > 0 ? <p>Mix ID: {this.filterMixes()} </p> : null}
+                    {this.props.songObj.mixes.length > 0 ? <p>Mix ID: {this.props.winningMix.id} </p> : null}
                 </div>
             )
         } else if (this.props.songObj.phase === 4){

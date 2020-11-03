@@ -1,5 +1,6 @@
 import React from 'react'
 import PhaseFour from './PhaseFour'
+import SubmitForm from './SubmitForm'
 
 class PhaseThree extends React.Component {
 
@@ -37,7 +38,7 @@ class PhaseThree extends React.Component {
     filterVocals = () => {
         if (this.props.songObj.vocals.length > 0){
             const winner = this.props.songObj.vocals.filter(vocal => vocal.selected === true)
-            return winner[0].id
+            return winner[0]
         } 
     }
 
@@ -47,7 +48,7 @@ class PhaseThree extends React.Component {
         if (this.props.songObj.phase > 3){
             return(
                 <div>
-                    {this.props.songObj.vocals.length > 0 ? <p>Vocal ID: {this.filterVocals()} </p> : null}
+                    {this.props.songObj.vocals.length > 0 ? <p>Vocal ID: {this.props.winningVocal.id} </p> : null}
                 </div>
             )
         }
