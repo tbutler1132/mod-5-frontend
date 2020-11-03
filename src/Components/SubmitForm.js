@@ -29,7 +29,7 @@ class SubmitForm extends React.Component{
             title: this.state.imageTitle,
             img_url: this.state.imageUrl,
             selected: false,
-            user_id: 46,
+            user_id: 49,
             song_id: this.props.songObj.id
         }
         const options = {
@@ -51,7 +51,7 @@ class SubmitForm extends React.Component{
             bpm: this.state.beatBpm,
             key_sig: this.state.beatKeySig,
             selected: false,
-            user_id: 46,
+            user_id: 49,
             song_id: this.props.songObj.id
         }
         const options = {

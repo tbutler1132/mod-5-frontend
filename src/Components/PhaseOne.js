@@ -5,8 +5,9 @@ import React from 'react'
 class PhaseOne extends React.Component {
 
     state = {
-        // imagesArray: [],
-        leaderboard: []
+        currentPhase: this.props.songObj.phase,
+        leaderingScore: "",
+        winningImage: this.props.winningImage
     }
 
     componentDidMount = () => {
@@ -37,29 +38,63 @@ class PhaseOne extends React.Component {
                 obj.image = v;
                 obj.wins = wins[i];
                 imagesWithWins.push(obj);
-              });
-              const sortedByWins = imagesWithWins.sort(function (l, r) {
+            });
+            const sortedByWins = imagesWithWins.sort(function (l, r) {
                 return r.wins - l.wins;
             });
-            // this.setState({leaderboard: sortedByWins})
-            return sortedByWins
+            const winner = sortedByWins[0]
+            if (winner && sortedByWins[0].wins > 15){
+                const songOptions = {
+                    method: "PATCH",
+                    headers: {
+                      "content-type": "application/json",
+                      "accept": "application/json"
+                    },
+                    body: JSON.stringify({ phase: 2 })
+                  }
+
+                fetch(`http://localhost:3000/songs/${this.props.songObj.id}`, songOptions)
+                .then(r => r.json())
+                .then(song => console.log(song))
+
+                const beatOptions = {
+                    method: "PATCH",
+                    headers: {
+                      "content-type": "application/json",
+                      "accept": "application/json"
+                    },
+                    body: JSON.stringify({ selected: true })
+                }
+                fetch(`http://localhost:3000/ref_imgs/${winner.id}`, beatOptions)
+                .then(r => r.json())
+                .then(beat => console.log(beat))
+            
+
+                this.setState({winningImage: sortedByWins[0], currentPhase: 2}) 
+                return sortedByWins
+            } else {
+                return ["Ass", null, null]
+            }
+            
         }
 
         
         
         
+        
+        
         render(){
-            console.log(this.createLeaderBoard())
-            if (this.props.songObj.phase > 1) {
+            console.log(this.state.winningImage)
+            if (this.state.currentPhase > 1) {
                 return(
-                    this.props.songObj.ref_imgs.length > 0 ? <div><img src={this.props.winningImage.img_url} width="250" height="200"/> </div> : null
+                    this.props.songObj.ref_imgs.length > 0 ? <div><img src={this.state.winningImage.img_url} width="250" height="200"/> </div> : null
                 )
-            } else if (this.props.songObj.phase === 1) {
+            } else if (this.state.currentPhase === 1) {
                 return(
                 <div>
-                    <p>1. {this.createLeaderBoard()[0] !== undefined ? this.createLeaderBoard()[0].image.title : null}</p>
-                    <p>2. {this.createLeaderBoard()[1] !== undefined ? this.createLeaderBoard()[1].image.title : null}</p>
-                    <p>3. {this.createLeaderBoard()[2] !== undefined ? this.createLeaderBoard()[2].image.title : null}</p>
+                    <p>1. {this.createLeaderBoard()[0].image.title}</p>
+                    <p>2. {this.createLeaderBoard()[1].image.title}</p>
+                    <p>3. {this.createLeaderBoard()[2].image.title}</p>
                 </div>
                 )
             } else {

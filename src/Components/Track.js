@@ -99,7 +99,7 @@ class Track extends React.Component {
         } 
         const newPoll = {
             phase: this.props.songObj.phase,
-            user_id: 46
+            user_id: 49
         }
         const options = {
             method: "POST",
