@@ -46,7 +46,6 @@ createBeatsLeaderBoard = () => {
 
         
         render(){
-            console.log(this.createBeatsLeaderBoard())
             if (this.props.songObj.phase > 2)
                 return(
                     this.props.songObj.beats.length > 0 ? <div><p>Beat ID: {this.filterSelectedBeats()}</p></div> : null

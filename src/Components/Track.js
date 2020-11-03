@@ -25,7 +25,7 @@ class Track extends React.Component {
         .then(r => r.json())
         .then(results => this.setState({pollResults: results}))
     }
-
+/////////////////////////////////////////////////////////////////////////////////
     referenceResults = () => {
         return this.state.pollResults.filter (result => result.poll.phase === 1)
     }
@@ -34,6 +34,11 @@ class Track extends React.Component {
         return this.state.pollResults.filter (result => result.poll.phase === 2)
     }
 
+    vocalResults = () => {
+        return this.state.pollResults.filter (result => result.poll.phase === 3)
+    }
+/////////////////////////////////////////////////////////////////////////////////
+    
     trackClickHandler = (e) => {
         if (this.state.trackClicked === false){
             this.setState({trackClicked: true})
@@ -97,7 +102,7 @@ class Track extends React.Component {
                 <div>
                 <PhaseOne songObj={this.props.songObj} referenceResults={this.referenceResults()}/>
                 <PhaseTwo songObj={this.props.songObj} beatResults={this.beatResults()}/>
-                <PhaseThree songObj={this.props.songObj} />
+                <PhaseThree songObj={this.props.songObj} vocalResults={this.vocalResults()}/>
                 <PhaseFour songObj={this.props.songObj}/>
                 <PhaseFive songObj={this.props.songObj}/>
                 {/* {this.props.songObj.phase === 6 ? null :<button>Submit</button>} */}
