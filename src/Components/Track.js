@@ -49,21 +49,22 @@ class Track extends React.Component {
             fetch("http://localhost:3000/vocals")
             .then(r => r.json())
             .then(vocals =>{ 
-                const filtered = vocals.filter(vocal => vocal.song.song.id === this.props.songObj.id)
+                const filtered = vocals.filter(vocal => vocal.beat.song.id === this.props.songObj.id)
                 this.setState({vocalsArray: filtered})
             }) 
         } else if (this.props.songObj.phase === 4) {
             fetch("http://localhost:3000/mixes")
             .then(r => r.json())
             .then(mixes =>{ 
-                const filtered = mixes.filter(mix => mix.vocal.song.id === this.props.songObj.vocal.id)
+                console.log(mixes[0].vocal.beat.beat)
+                const filtered = mixes.filter(mix => mix.vocal.beat.song_id === this.props.songObj.id)
                 this.setState({mixesArray: filtered})
             })
         } else if (this.props.songObj.phase === 5) {
             fetch("http://localhost:3000/masters")
             .then(r => r.json())
             .then(masters =>{ 
-                const filtered = masters.filter(master => master.song.song.id === this.props.songObj.mix.id)
+                const filtered = masters.filter(master => master.beat.beat.song_id === this.props.songObj.id)
                 this.setState({mastersArray: filtered})
             }) 
         }
@@ -98,7 +99,7 @@ class Track extends React.Component {
         } 
         const newPoll = {
             phase: this.props.songObj.phase,
-            user_id: 34
+            user_id: 46
         }
         const options = {
             method: "POST",
@@ -167,7 +168,7 @@ class Track extends React.Component {
     filterMasters = () => {
         if (this.props.songObj.masters.length > 0){
             const winner = this.props.songObj.masters.filter(master => master.selected === true)
-            return winner[0].id
+            return winner[0]
         } 
     }
     
