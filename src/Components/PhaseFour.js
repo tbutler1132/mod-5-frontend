@@ -1,32 +1,34 @@
 import React from 'react'
+import PhaseFive from './PhaseFive'
 
 
 class PhaseFour extends React.Component {
 
     state = {
-        mixesArray: [],
+        mastersArray: [],
         leaderboard: []
     }
 
     componentDidMount = () => {
-        fetch("http://localhost:3000/mixes")
+        fetch("http://localhost:3000/masters")
         .then(r => r.json())
-        .then(mixes =>{ 
-            this.setState({mixesArray: mixes})
-        })
+        .then(masters =>{ 
+            const filtered = masters.filter(master => master.beat.beat.song_id === this.props.songObj.id)
+            this.setState({mastersArray: filtered})
+        }) 
     }
 
-    filterMixes = () => {
-        if (this.props.songObj.mixes.length > 0){
-            const winner = this.props.songObj.mixes.filter(mix => mix.selected === true)
-            return winner[0].id
+    filterMasters = () => {
+        if (this.props.songObj.masters.length > 0){
+            const winner = this.props.songObj.masters.filter(master => master.selected === true)
+            return winner[0]
         } 
     }
 
     createMixesLeaderBoard = () => {
-        const wins = this.state.mixesArray.map(mix => mix.results.filter(result => result.win === true).length)
+        const wins = this.props.mixesArray.map(mix => mix.results.filter(result => result.win === true).length)
         const mixesWithWins = []
-        this.state.mixesArray.forEach(function(v,i){
+        this.props.mixesArray.forEach(function(v,i){
             const obj = {};
             obj.mix = v;
             obj.wins = wins[i];
@@ -42,9 +44,13 @@ class PhaseFour extends React.Component {
     render(){
         if (this.props.songObj.phase > 4){
             return(
-                <div>
-                    {this.props.songObj.mixes.length > 0 ? <p>Mix ID: {this.props.winningMix.id} </p> : null}
-                </div>
+                    this.props.songObj.mixes.length > 0 ? 
+                        <div> 
+                            <p>Mix ID: {this.props.winningMix.id}</p>
+                            <PhaseFive songObj={this.props.songObj} winningMaster={this.filterMasters()} mastersArray={this.state.mastersArray}/>
+                        </div> 
+                    : 
+                    null
             )
         } else if (this.props.songObj.phase === 4){
             return (

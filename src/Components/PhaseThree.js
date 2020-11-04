@@ -5,24 +5,24 @@ import SubmitForm from './SubmitForm'
 class PhaseThree extends React.Component {
 
     state = {
-        vocalsArray: [],
-        leaderboard: []
+        mixesArray: []
     }
 
     componentDidMount = () => {
-        fetch("http://localhost:3000/vocals")
+        fetch("http://localhost:3000/mixes")
         .then(r => r.json())
-        .then(vocals =>{ 
-            this.setState({vocalsArray: vocals})
+        .then(mixes =>{ 
+            const filtered = mixes.filter(mix => mix.vocal.beat.song_id === this.props.songObj.id)
+            this.setState({mixesArray: filtered})
         })
     }
 
 //COMPLETE
 
     createVocalsLeaderBoard = () => {
-        const wins = this.state.vocalsArray.map(vocal => vocal.results.filter(result => result.win === true).length)
+        const wins = this.props.vocalsArray.map(vocal => vocal.results.filter(result => result.win === true).length)
         const vocalsWithWins = []
-        this.state.vocalsArray.forEach(function(v,i){
+        this.props.vocalsArray.forEach(function(v,i){
             const obj = {};
             obj.vocal = v;
             obj.wins = wins[i];
@@ -35,9 +35,9 @@ class PhaseThree extends React.Component {
         return sortedByWins
     }
 
-    filterVocals = () => {
-        if (this.props.songObj.vocals.length > 0){
-            const winner = this.props.songObj.vocals.filter(vocal => vocal.selected === true)
+    filterMixes = () => {
+        if (this.props.songObj.mixes.length > 0){
+            const winner = this.props.songObj.mixes.filter(mix => mix.selected === true)
             return winner[0]
         } 
     }
@@ -47,9 +47,13 @@ class PhaseThree extends React.Component {
     render(){
         if (this.props.songObj.phase > 3){
             return(
-                <div>
-                    {this.props.songObj.vocals.length > 0 ? <p>Vocal ID: {this.props.winningVocal.id} </p> : null}
-                </div>
+                this.props.songObj.vocals.length > 0 ? 
+                    <div> 
+                        <p>Vocal ID: {this.props.winningVocal.id} </p>
+                        <PhaseFour songObj={this.props.songObj} winningMix={this.filterMixes()} mixesArray={this.state.mixesArray}/>
+                    </div> 
+                    : 
+                    null
             )
         }
         else if (this.props.songObj.phase === 3){

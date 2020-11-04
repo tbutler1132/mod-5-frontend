@@ -1,31 +1,31 @@
 import React from 'react'
+import PhaseTwo from './PhaseTwo'
 
 
 
 class PhaseOne extends React.Component {
 
     state = {
-        currentPhase: this.props.songObj.phase,
-        leaderingScore: "",
-        winningImage: this.props.winningImage
+        beatsArray: []
     }
 
     componentDidMount = () => {
-        // fetch("http://localhost:3000/ref_imgs")
-        // .then(r => r.json())
-        // .then(images =>{ 
-        //     this.setState({imagesArray: images})
-        // })
+        fetch("http://localhost:3000/beats")
+        .then(r => r.json())
+        .then(beats =>{ 
+            const filtered = beats.filter(beat => beat.song.id === this.props.songObj.id)
+            this.setState({beatsArray: filtered})
+        }) 
     }
 
 
 // COMPLETED
-        filterSelectedImages = () => {
-            const winner = this.props.songObj.ref_imgs.filter(image => image.selected)
+    filterSelectedBeats = () => {
+        const winner = this.props.songObj.beats.filter(beat => beat.selected)
             if (winner){
                 return winner[0]
             }
-        }
+    }
 
 // IN PROGRESS
 
@@ -42,39 +42,40 @@ class PhaseOne extends React.Component {
             const sortedByWins = imagesWithWins.sort(function (l, r) {
                 return r.wins - l.wins;
             });
-            const winner = sortedByWins[0]
-            if (winner && sortedByWins[0].wins > 15){
-                const songOptions = {
-                    method: "PATCH",
-                    headers: {
-                      "content-type": "application/json",
-                      "accept": "application/json"
-                    },
-                    body: JSON.stringify({ phase: 2 })
-                  }
+            
+            return sortedByWins
+            // const winner = sortedByWins[0]
+            // if (winner && sortedByWins[0].wins > 15){
+            //     const songOptions = {
+            //         method: "PATCH",
+            //         headers: {
+            //           "content-type": "application/json",
+            //           "accept": "application/json"
+            //         },
+            //         body: JSON.stringify({ phase: 2 })
+            //       }
 
-                fetch(`http://localhost:3000/songs/${this.props.songObj.id}`, songOptions)
-                .then(r => r.json())
-                .then(song => console.log(song))
+            //     fetch(`http://localhost:3000/songs/${this.props.songObj.id}`, songOptions)
+            //     .then(r => r.json())
+            //     .then(song => console.log(song))
 
-                const beatOptions = {
-                    method: "PATCH",
-                    headers: {
-                      "content-type": "application/json",
-                      "accept": "application/json"
-                    },
-                    body: JSON.stringify({ selected: true })
-                }
-                fetch(`http://localhost:3000/ref_imgs/${winner.id}`, beatOptions)
-                .then(r => r.json())
-                .then(beat => console.log(beat))
+            //     const beatOptions = {
+            //         method: "PATCH",
+            //         headers: {
+            //           "content-type": "application/json",
+            //           "accept": "application/json"
+            //         },
+            //         body: JSON.stringify({ selected: true })
+            //     }
+            //     fetch(`http://localhost:3000/ref_imgs/${winner.id}`, beatOptions)
+            //     .then(r => r.json())
+            //     .then(beat => console.log(beat))
             
 
-                this.setState({winningImage: sortedByWins[0], currentPhase: 2}) 
-                return sortedByWins
-            } else {
-                return ["Ass", null, null]
-            }
+            //     this.setState({winningImage: sortedByWins[0], currentPhase: 2}) 
+            // } else {
+            //     return ["Ass", null, null]
+            // }
             
         }
 
@@ -84,12 +85,18 @@ class PhaseOne extends React.Component {
         
         
         render(){
-            console.log(this.state.winningImage)
-            if (this.state.currentPhase > 1) {
+            // console.log(this.props.winningImage.img_url)
+            if (this.props.songObj.phase > 1) {
                 return(
-                    this.props.songObj.ref_imgs.length > 0 ? <div><img src={this.state.winningImage.img_url} width="250" height="200"/> </div> : null
+                    this.props.songObj.ref_imgs.length > 0 ? 
+                    <div>
+                        <img src={this.props.winningImage.img_url} width="250" height="200"/>
+                        <PhaseTwo songObj={this.props.songObj} winningBeat={this.filterSelectedBeats()} beatsArray={this.state.beatsArray}/> 
+                    </div> 
+                    : 
+                    null
                 )
-            } else if (this.state.currentPhase === 1) {
+            } else if (this.props.songObj.phase === 1) {
                 return(
                 <div>
                     <p>1. {this.createLeaderBoard()[0].image.title}</p>

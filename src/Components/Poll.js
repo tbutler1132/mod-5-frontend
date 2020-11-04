@@ -52,7 +52,7 @@ class Poll extends React.Component {
             console.log(resultObj)
             
         })
-
+        this.props.newPoll()
     }
 
     render(){

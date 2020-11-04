@@ -11,6 +11,9 @@ import SubmitForm from './SubmitForm'
 class Track extends React.Component {
 
     state = {
+
+        songObj: this.props.songObj,
+
         trackClicked: false,
         pollResults: [],
         pollClickedFirstTime: false,
@@ -18,10 +21,10 @@ class Track extends React.Component {
         pollClickedAgain: false,
         
         imagesArray: [],
-        beatsArray: [],
-        vocalsArray: [],
         mixesArray: [],
-        mastersArray: []
+        mastersArray: [],
+
+        phase: this.props.songObj.phase
     }
 
     
@@ -31,40 +34,18 @@ class Track extends React.Component {
         .then(r => r.json())
         .then(results => this.setState({pollResults: results}))
 
-        if (this.props.songObj.phase === 1){
+        if (this.state.songObj.phase === 1){
             fetch("http://localhost:3000/ref_imgs")
             .then(r => r.json())
             .then(images =>{ 
-                const filtered = images.filter(image => image.song.id === this.props.songObj.id)
+                const filtered = images.filter(image => image.song.id === this.state.songObj.id)
                 this.setState({imagesArray: filtered})
-            })
-        } else if (this.props.songObj.phase === 2) {
-            fetch("http://localhost:3000/beats")
-            .then(r => r.json())
-            .then(beats =>{ 
-                const filtered = beats.filter(beat => beat.song.id === this.props.songObj.id)
-                this.setState({beatsArray: filtered})
             }) 
-        } else if (this.props.songObj.phase === 3) {
-            fetch("http://localhost:3000/vocals")
-            .then(r => r.json())
-            .then(vocals =>{ 
-                const filtered = vocals.filter(vocal => vocal.beat.song.id === this.props.songObj.id)
-                this.setState({vocalsArray: filtered})
-            }) 
-        } else if (this.props.songObj.phase === 4) {
-            fetch("http://localhost:3000/mixes")
-            .then(r => r.json())
-            .then(mixes =>{ 
-                console.log(mixes[0].vocal.beat.beat)
-                const filtered = mixes.filter(mix => mix.vocal.beat.song_id === this.props.songObj.id)
-                this.setState({mixesArray: filtered})
-            })
-        } else if (this.props.songObj.phase === 5) {
+        } else if (this.state.songObj.phase === 5) {
             fetch("http://localhost:3000/masters")
             .then(r => r.json())
             .then(masters =>{ 
-                const filtered = masters.filter(master => master.beat.beat.song_id === this.props.songObj.id)
+                const filtered = masters.filter(master => master.beat.beat.song_id === this.state.songObj.id)
                 this.setState({mastersArray: filtered})
             }) 
         }
@@ -98,8 +79,8 @@ class Track extends React.Component {
             this.setState({pollClickedFirstTime: true})
         } 
         const newPoll = {
-            phase: this.props.songObj.phase,
-            user_id: 49
+            phase: this.state.songObj.phase,
+            user_id: 52
         }
         const options = {
             method: "POST",
@@ -118,31 +99,27 @@ class Track extends React.Component {
     }
 
 
-// Phase 1 Leaderboard
+// LEADERBOARDS
 
-// createLeaderBoard = () => {
-//     const wins = this.state.imagesArray.map(image => image.results.filter(result => result.win === true).length)
-//     const imagesWithWins = []
-//     this.state.imagesArray.forEach(function(v,i){
-//         const obj = {};
-//         obj.image = v;
-//         obj.wins = wins[i];
-//         imagesWithWins.push(obj);
-//       });
-//       const sortedByWins = imagesWithWins.sort(function (l, r) {
-//         return r.wins - l.wins;
-//     });
-//     this.setState({leaderboard: sortedByWins})
-// }
+    createLeaderBoard = () => {
+        const wins = this.state.imagesArray.map(image => image.results.filter(result => result.win === true).length)
+        const imagesWithWins = []
+        this.state.imagesArray.forEach(function(v,i){
+            const obj = {};
+            obj.image = v;
+            obj.wins = wins[i];
+            imagesWithWins.push(obj);
+        });
+        const sortedByWins = imagesWithWins.sort(function (l, r) {
+            return r.wins - l.wins;
+        });
+        
+        return sortedByWins
+    }
+
+
 
 //      WINNERS
-
-    filterSelectedImages = () => {
-        const winner = this.props.songObj.ref_imgs.filter(image => image.selected)
-        if (winner){
-            return winner[0]
-        }
-    }
 
     filterSelectedBeats = () => {
         const winner = this.props.songObj.beats.filter(beat => beat.selected)
@@ -151,46 +128,61 @@ class Track extends React.Component {
             }
     }
 
+    filterSelectedImages = () => {
+        const winner = this.state.songObj.ref_imgs.filter(image => image.selected)
+        if (winner){
+            return winner[0]
+        }
+    }
+
+
+
     filterVocals = () => {
-        if (this.props.songObj.vocals.length > 0){
-            const winner = this.props.songObj.vocals.filter(vocal => vocal.selected === true)
+        if (this.state.songObj.vocals.length > 0){
+            const winner = this.state.songObj.vocals.filter(vocal => vocal.selected === true)
             return winner[0]
         } 
     }
 
     filterMixes = () => {
-        if (this.props.songObj.mixes.length > 0){
-            const winner = this.props.songObj.mixes.filter(mix => mix.selected === true)
+        if (this.state.songObj.mixes.length > 0){
+            const winner = this.state.songObj.mixes.filter(mix => mix.selected === true)
             return winner[0]
         } 
     }
 
     filterMasters = () => {
-        if (this.props.songObj.masters.length > 0){
-            const winner = this.props.songObj.masters.filter(master => master.selected === true)
+        if (this.state.songObj.masters.length > 0){
+            const winner = this.state.songObj.masters.filter(master => master.selected === true)
             return winner[0]
         } 
+    }
+
+    phaseChange = () => {
+
     }
     
 
     render(){
+        console.log(this.state.imagesArray)
         return(
             <div className="track" >
-                <h1 onClick={this.trackClickHandler}>{this.props.songObj.title}</h1>
-                <h3>Phase: {this.props.songObj.phase === 6 ? "Complete" :  this.props.songObj.phase}</h3>
+                <h1 onClick={this.trackClickHandler}>{this.state.songObj.title}</h1>
+                <h3>Phase: {this.state.songObj.phase === 6 ? "Complete" :  this.state.songObj.phase}</h3>
                 
                 {this.state.trackClicked === true ?
                 <div>
-                <PhaseOne songObj={this.props.songObj} referenceResults={this.referenceResults()} winningImage={this.filterSelectedImages()} imagesArray={this.state.imagesArray}/>
-                <PhaseTwo songObj={this.props.songObj} beatResults={this.beatResults()} winningBeat={this.filterSelectedBeats()} beatsArray={this.state.beatsArray}/>
-                <PhaseThree songObj={this.props.songObj} vocalResults={this.vocalResults()} winningVocal={this.filterVocals()} vocalsArray={this.state.vocalsArray}/>
-                <PhaseFour songObj={this.props.songObj} winningMix={this.filterMixes()} mixesArray={this.state.mixesArray}/>
-                <PhaseFive songObj={this.props.songObj} winningMaster={this.filterMasters()} mastersArray={this.state.mastersArray}/>
-                {/* {this.props.songObj.phase === 6 ? null :<button>Submit</button>} */}
-                {this.props.songObj.phase === 6 ? null : <button onClick={this.pollClickHandler}>Vote on poll</button>}
-                {this.state.pollClickedFirstTime === true ? <Poll  songObj={this.props.songObj} pollId={this.state.currentPollId}/> : null}
-                <SubmitForm songObj={this.props.songObj} winningBeat={this.filterSelectedBeats()} winningVocal={this.filterVocals()} winningMix={this.filterMixes()} winningMaster={this.filterMasters()}/>
+                <PhaseOne songObj={this.state.songObj} referenceResults={this.referenceResults()} winningImage={this.filterSelectedImages()} imagesArray={this.state.imagesArray}/>
+                
+                
+                
+                
+                {/* {this.state.songObj.phase === 6 ? null :<button>Submit</button>} */}
+                {this.state.songObj.phase === 6 ? null : <button onClick={this.pollClickHandler}>Vote on poll</button>}
+                {this.state.pollClickedFirstTime === true ? <Poll  songObj={this.state.songObj} pollId={this.state.currentPollId} newPoll={this.pollClickHandler}/> : null}
+                <SubmitForm songObj={this.state.songObj} winningBeat={this.filterSelectedBeats()} winningVocal={this.filterVocals()} winningMix={this.filterMixes()} winningMaster={this.filterMasters()}/>
                 {/* <Route path="poll" component={Poll} />  */}
+                <button>Initiate New Phase</button>
                 </div>
                 : 
                 null
