@@ -34,7 +34,7 @@ class PhaseFive extends React.Component {
         } else if (this.props.phase === 5){
             return (
                 <div>
-                    <h3>Leaderboard</h3>
+                    <h3>Masters Leaderboard</h3>
                     <p>1. {this.props.mastersLeaderBoard[0] !== undefined ? this.props.mastersLeaderBoard[0].master.id : null}</p>
                     <p>2. {this.props.mastersLeaderBoard[1] !== undefined ? this.props.mastersLeaderBoard[1].master.id : null}</p>
                     <p>3. {this.props.mastersLeaderBoard[2] !== undefined ? this.props.mastersLeaderBoard[2].master.id : null}</p>

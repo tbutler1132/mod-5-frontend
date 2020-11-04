@@ -1,5 +1,6 @@
 import React from 'react'
 import Track from '../Components/Track'
+import {Route, Switch} from 'react-router-dom'
 
 class Album extends React.Component {
 
@@ -20,11 +21,46 @@ class Album extends React.Component {
 
     render(){
         return(
-        <div>
-            <h1>Hip-hop</h1>
-            {this.renderTracks()}
-        </div>
+            <div>
+            {this.state.trackArray.length === 0 ?  <h1>Loading</h1> :
+                
+        
+                
+                    <Switch>
+                        <Route path="/tracks/:id" render={({match}) => {
+    
+                            let id = parseInt(match.params.id)
+                            let foundTrack = this.state.trackArray.find((track) => track.id === id)
+                            return <Track track={foundTrack} appClickHandler={this.props.appClickHandler} songObj={foundTrack}/>
+    
+    
+                        }}/>
+                        
+                        
+                        
+                        <Route path="/tracks" render={() => {
+                            return( 
+                                <div>
+                                    {this.renderTracks()} 
+                                </div>
+                            )
+                            }} />
+                    </Switch> 
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                }
+                </div>
         )
+        
     }
 
 }

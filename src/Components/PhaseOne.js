@@ -107,6 +107,7 @@ class PhaseOne extends React.Component {
                 return(
                     this.props.songObj.ref_imgs.length > 0 ? 
                     <div>
+                        <h3>Artwork</h3>
                         <img src={this.props.winningImage.img_url} width="200" height="200"/>
                         <PhaseTwo songObj={this.props.songObj} winningBeat={this.filterSelectedBeats()} beatsArray={this.state.beatsArray} beatsLeaderBoard={this.createBeatsLeaderBoard()} phase={this.props.phase}/> 
                     </div> 
@@ -116,8 +117,9 @@ class PhaseOne extends React.Component {
             } else if (this.props.phase === 1) {
                 return(
                 <div>
-                    <h3>Leaderboard</h3>
+                    <h3>Artwork Leaderboard</h3>
                     <p>1. <img src={this.props.imageLeaderboard[0].image.img_url} width="125" height="100"/></p>
+                    {/* <p>{this.props.imageLeaderboard[0].wins}</p> */}
                     <p>2. <img src={this.props.imageLeaderboard[1].image.img_url} width="125" height="100"/></p>
                     <p>3. <img src={this.props.imageLeaderboard[2].image.img_url} width="125" height="100"/></p>
                 </div>

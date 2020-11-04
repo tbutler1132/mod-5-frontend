@@ -59,7 +59,7 @@ class PhaseThree extends React.Component {
         else if (this.props.phase === 3){
             return (
                 <div>
-                    <h3>Leaderboard</h3>
+                    <h3>Vocals Leaderboard</h3>
                     <p>1. {this.props.vocalsLeaderBoard[0] !== undefined ? this.props.vocalsLeaderBoard[0].vocal.id : null}</p>
                     <p>2. {this.props.vocalsLeaderBoard[1] !== undefined ? this.props.vocalsLeaderBoard[1].vocal.id : null}</p>
                     <p>3. {this.props.vocalsLeaderBoard[2] !== undefined ? this.props.vocalsLeaderBoard[2].vocal.id : null}</p>

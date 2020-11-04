@@ -4,7 +4,7 @@ import PhaseTwo from './PhaseTwo'
 import PhaseThree from './PhaseThree'
 import PhaseFour from './PhaseFour'
 import PhaseFive from './PhaseFive'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, NavLink } from 'react-router-dom'
 import Poll from './Poll'
 import SubmitForm from './SubmitForm'
 
@@ -82,7 +82,7 @@ class Track extends React.Component {
         } 
         const newPoll = {
             phase: this.state.songObj.phase,
-            user_id: 55
+            user_id: 73
         }
         const options = {
             method: "POST",
@@ -162,11 +162,27 @@ class Track extends React.Component {
 
     phaseChange = () => {
         const newPhase = this.state.phase + 1
-        if (this.state.phase === 6){
-            this.setState({phase: 1})
-        } else {
-        this.setState({phase: newPhase})
-        }
+        const songOptions = {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json",
+                "accept": "application/json"
+            },
+                body: JSON.stringify({ phase: newPhase })
+            }
+
+        fetch(`http://localhost:3000/songs/${this.state.songObj.id}`, songOptions)
+        .then(r => r.json())
+        .then(song => {
+            console.log(song)
+            if (this.state.phase === 6){
+                this.setState({phase: 1})
+            } else {
+                this.setState({phase: newPhase})
+            }
+        })
+        
+        
         if (this.state.pollClickedFirstTime === true){
             this.setState({pollClickedFirstTime: false})
         }
@@ -176,8 +192,11 @@ class Track extends React.Component {
     render(){
         return(
             <div className="track" >
-                <h1 onClick={this.trackClickHandler}>{this.state.songObj.title}</h1>
+                <NavLink to={`tracks/${this.props.songObj.id}`}>
+                    <h1 onClick={this.trackClickHandler}>{this.state.songObj.title}</h1>
+                </NavLink>
                 <h3>Phase: {this.state.phase === 6 ? "Complete" :  this.state.phase}</h3>
+                <h4>Song description</h4>
                 
                 {this.state.trackClicked === true ?
                 <div>
@@ -191,7 +210,7 @@ class Track extends React.Component {
                 {this.state.pollClickedFirstTime === true ? <Poll  songObj={this.state.songObj} pollId={this.state.currentPollId} newPoll={this.pollClickHandler} phase={this.state.phase}/> : null}
                 <SubmitForm songObj={this.state.songObj} winningBeat={this.filterSelectedBeats()} winningVocal={this.filterVocals()} winningMix={this.filterMixes()} winningMaster={this.filterMasters()} phase={this.state.phase}/>
                 {/* <Route path="poll" component={Poll} />  */}
-                {this.state.phase != 6 ? <button onClick={this.phaseChange}>Initiate New Phase</button> : null}
+                <button onClick={this.phaseChange}>Initiate New Phase</button>
                 </div>
                 : 
                 null

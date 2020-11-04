@@ -68,7 +68,7 @@ class PhaseTwo extends React.Component {
                     this.props.songObj.beats.length > 0 ? 
                     <div>
                         
-                        {this.props.phase === 6 ? <iframe width="50%" height="200" scrolling="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/411293064&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                        {this.props.phase === 6 && this.props.songObj.title === "Track 1" ? <iframe width="35%" height="200" scrolling="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/411293064&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
                         :
                         <p>Beat Key: {this.props.winningBeat.key_sig}</p>
                         }
@@ -80,7 +80,7 @@ class PhaseTwo extends React.Component {
             else if (this.props.phase === 2){
                 return (
                 <div>
-                    <h3>Leaderboard</h3>
+                    <h3>Beats Leaderboard</h3>
                     <p>1. {this.props.beatsLeaderBoard[0] !== undefined ? this.props.beatsLeaderBoard[0].beat.key_sig : null}</p>
                     <p>2. {this.props.beatsLeaderBoard[1] !== undefined ? this.props.beatsLeaderBoard[1].beat.key_sig : null}</p>
                     <p>3. {this.props.beatsLeaderBoard[2] !== undefined ? this.props.beatsLeaderBoard[2].beat.key_sig : null}</p>

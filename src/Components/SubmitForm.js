@@ -15,7 +15,9 @@ class SubmitForm extends React.Component{
 
         mixUrl: "",
 
-        masterUrl: ""
+        masterUrl: "",
+
+        disabled: ""
     }
 
     changeHandler = (e) => {
@@ -25,11 +27,14 @@ class SubmitForm extends React.Component{
 
     phaseOneSubmitHandler = (e) => {
         e.preventDefault()
+        if (this.state.disabled === ""){
+            this.setState({disabled: "disabled"})
+        }
         const newRefImg = {
             title: this.state.imageTitle,
             img_url: this.state.imageUrl,
             selected: false,
-            user_id: 55,
+            user_id: 73,
             song_id: this.props.songObj.id
         }
         const options = {
@@ -51,7 +56,7 @@ class SubmitForm extends React.Component{
             bpm: this.state.beatBpm,
             key_sig: this.state.beatKeySig,
             selected: false,
-            user_id: 55,
+            user_id: 73,
             song_id: this.props.songObj.id
         }
         const options = {
@@ -150,8 +155,8 @@ class SubmitForm extends React.Component{
         } else if (this.props.phase === 1) {
             return(
                 <form onSubmit={this.phaseOneSubmitHandler}>
-                <input type="text" name="imageTitle" value={this.state.imageTitle} placeholder="Title" onChange={this.changeHandler} />
-                <input type="text" name="imageUrl" value={this.state.imageUrl} placeholder="URL" onChange={this.changeHandler} />
+                <input type="text" name="imageTitle" value={this.state.imageTitle} placeholder="Title" onChange={this.changeHandler} disabled={this.state.disabled} />
+                <input type="text" name="imageUrl" value={this.state.imageUrl} placeholder="URL" onChange={this.changeHandler} disabled={this.state.disabled}/>
                 {/* <input type="text" name="beatUrl" value={this.state.beatUrl} onChange={this.changeHandler} /> */}
                 <button>Submit image</button>
             </form>
