@@ -29,7 +29,7 @@ class SubmitForm extends React.Component{
             title: this.state.imageTitle,
             img_url: this.state.imageUrl,
             selected: false,
-            user_id: 52,
+            user_id: 55,
             song_id: this.props.songObj.id
         }
         const options = {
@@ -51,7 +51,7 @@ class SubmitForm extends React.Component{
             bpm: this.state.beatBpm,
             key_sig: this.state.beatKeySig,
             selected: false,
-            user_id: 52,
+            user_id: 55,
             song_id: this.props.songObj.id
         }
         const options = {
@@ -137,16 +137,17 @@ class SubmitForm extends React.Component{
     
     
     render(){
-        if (this.props.songObj.phase === 2){
+        if (this.props.phase === 2){
             return(
                 <form onSubmit={this.phaseTwoSubmitHandler}>
                     <input type="text" name="beatBpm" value={this.state.beatBpm} placeholder="BPM" onChange={this.changeHandler} />
                     <input type="text" name="beatKeySig" value={this.state.beatKeySig} placeholder="Key" onChange={this.changeHandler} />
+                    <input type="text" name="beatUrl" value={this.state.beatUrl} placeholder="URL" onChange={this.changeHandler} />
                     {/* <input type="text" name="beatUrl" value={this.state.beatUrl} onChange={this.changeHandler} /> */}
                     <button>Submit beat</button>
                 </form>
             )
-        } else if (this.props.songObj.phase === 1) {
+        } else if (this.props.phase === 1) {
             return(
                 <form onSubmit={this.phaseOneSubmitHandler}>
                 <input type="text" name="imageTitle" value={this.state.imageTitle} placeholder="Title" onChange={this.changeHandler} />
@@ -155,7 +156,7 @@ class SubmitForm extends React.Component{
                 <button>Submit image</button>
             </form>
             )
-        } else if (this.props.songObj.phase === 3) {
+        } else if (this.props.phase === 3) {
             return(
                 <form onSubmit={this.phaseOneSubmitHandler}>
                 <input type="text" name="vocalUrl" value={this.state.vocalUrl} placeholder="URL" onChange={this.changeHandler} />
@@ -163,7 +164,7 @@ class SubmitForm extends React.Component{
                 <button>Submit vocal</button>
             </form>
             )
-        } else if (this.props.songObj.phase === 4) {
+        } else if (this.props.phase === 4) {
             return(
                 <form onSubmit={this.phaseOneSubmitHandler}>
                     <input type="text" name="mixUrl" value={this.state.mixUrl} placeholder="URL" onChange={this.changeHandler} />
@@ -171,7 +172,7 @@ class SubmitForm extends React.Component{
                     <button>Submit mix</button>
                 </form> 
             )
-        } else if (this.props.songObj.phase === 5) {
+        } else if (this.props.phase === 5) {
             return(
                 <form onSubmit={this.phaseOneSubmitHandler}>
                     <input type="text" name="masterUrl" value={this.state.masterUrl} placeholder="URL" onChange={this.changeHandler} />

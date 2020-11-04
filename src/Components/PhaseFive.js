@@ -22,35 +22,22 @@ class PhaseFive extends React.Component {
         } 
     }
 
-    createMastersLeaderBoard = () => {
-        const wins = this.state.mastersArray.map(mix => mix.results.filter(result => result.win === true).length)
-        const mastersWithWins = []
-        this.state.mastersArray.forEach(function(v,i){
-            const obj = {};
-            obj.master = v;
-            obj.wins = wins[i];
-            mastersWithWins.push(obj);
-        });
-        const sortedByWins = mastersWithWins.sort(function (l, r) {
-            return r.wins - l.wins;
-        });
-        // this.setState({leaderboard: sortedByWins})
-        return sortedByWins
-    } 
+
 
     render(){
-        if (this.props.songObj.phase > 5){
+        if (this.props.phase > 5){
             return(
                 <div>
                     { this.props.songObj.masters.length  > 0 ? <p>Master Id: {this.props.winningMaster.id}</p> : null}
                 </div>
             )
-        } else if (this.props.songObj === 5){
+        } else if (this.props.phase === 5){
             return (
                 <div>
-                    <p>1. {this.createMastersLeaderBoard()[0] !== undefined ? this.createMastersLeaderBoard()[0].master.id : null}</p>
-                    <p>2. {this.createMastersLeaderBoard()[1] !== undefined ? this.createMastersLeaderBoard()[1].master.id : null}</p>
-                    <p>3. {this.createMastersLeaderBoard()[2] !== undefined ? this.createMastersLeaderBoard()[2].master.id : null}</p>
+                    <h3>Leaderboard</h3>
+                    <p>1. {this.props.mastersLeaderBoard[0] !== undefined ? this.props.mastersLeaderBoard[0].master.id : null}</p>
+                    <p>2. {this.props.mastersLeaderBoard[1] !== undefined ? this.props.mastersLeaderBoard[1].master.id : null}</p>
+                    <p>3. {this.props.mastersLeaderBoard[2] !== undefined ? this.props.mastersLeaderBoard[2].master.id : null}</p>
                 </div>
             )  
         } else {

@@ -20,21 +20,35 @@ class PhaseTwo extends React.Component {
 
 // IN PROGRESS
 
-createBeatsLeaderBoard = () => {
-    const wins = this.props.beatsArray.map(beat => beat.results.filter(result => result.win === true).length)
-    const beatsWithWins = []
-    this.props.beatsArray.forEach(function(v,i){
-        const obj = {};
-        obj.beat = v;
-        obj.wins = wins[i];
-        beatsWithWins.push(obj);
-      });
-      const sortedByWins = beatsWithWins.sort(function (l, r) {
-        return r.wins - l.wins;
-    });
-    // sortedByWins !== undefined ? this.setState({highestScore: sortedByWins[0].wins}) : console.log("ass")
-    return sortedByWins
-}
+// createBeatsLeaderBoard = () => {
+//     const wins = this.props.beatsArray.map(beat => beat.results.filter(result => result.win === true).length)
+//     const beatsWithWins = []
+//     this.props.beatsArray.forEach(function(v,i){
+//         const obj = {};
+//         obj.beat = v;
+//         obj.wins = wins[i];
+//         beatsWithWins.push(obj);
+//       });
+//       const sortedByWins = beatsWithWins.sort(function (l, r) {
+//         return r.wins - l.wins;
+//     });
+//     return sortedByWins
+// }
+
+    createVocalsLeaderBoard = () => {
+        const wins = this.state.vocalsArray.map(vocal => vocal.results.filter(result => result.win === true).length)
+        const vocalsWithWins = []
+        this.state.vocalsArray.forEach(function(v,i){
+            const obj = {};
+            obj.vocal = v;
+            obj.wins = wins[i];
+            vocalsWithWins.push(obj);
+        });
+        const sortedByWins = vocalsWithWins.sort(function (l, r) {
+            return r.wins - l.wins;
+        });
+        return sortedByWins
+    }
 
 
 // COMPLETED
@@ -49,22 +63,27 @@ createBeatsLeaderBoard = () => {
         
         render(){
             console.log(this.state.highestScore)
-            if (this.props.songObj.phase > 2)
+            if (this.props.phase > 2)
                 return(
                     this.props.songObj.beats.length > 0 ? 
                     <div>
-                        <p>Beat ID: {this.props.winningBeat.id}</p>
-                        <PhaseThree songObj={this.props.songObj} winningVocal={this.filterVocals()} vocalsArray={this.state.vocalsArray}/>
+                        
+                        {this.props.phase === 6 ? <iframe width="50%" height="200" scrolling="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/411293064&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+                        :
+                        <p>Beat Key: {this.props.winningBeat.key_sig}</p>
+                        }
+                        <PhaseThree songObj={this.props.songObj} winningVocal={this.filterVocals()} vocalsArray={this.state.vocalsArray} vocalsLeaderBoard={this.createVocalsLeaderBoard()} phase={this.props.phase}/>
                     </div> 
                     : 
                     null
                 )
-            else if (this.props.songObj.phase === 2){
+            else if (this.props.phase === 2){
                 return (
                 <div>
-                    <p>1. {this.createBeatsLeaderBoard()[0] !== undefined ? this.createBeatsLeaderBoard()[0].beat.id : null}</p>
-                    <p>2. {this.createBeatsLeaderBoard()[1] !== undefined ? this.createBeatsLeaderBoard()[1].beat.id : null}</p>
-                    <p>3. {this.createBeatsLeaderBoard()[2] !== undefined ? this.createBeatsLeaderBoard()[2].beat.id : null}</p>
+                    <h3>Leaderboard</h3>
+                    <p>1. {this.props.beatsLeaderBoard[0] !== undefined ? this.props.beatsLeaderBoard[0].beat.key_sig : null}</p>
+                    <p>2. {this.props.beatsLeaderBoard[1] !== undefined ? this.props.beatsLeaderBoard[1].beat.key_sig : null}</p>
+                    <p>3. {this.props.beatsLeaderBoard[2] !== undefined ? this.props.beatsLeaderBoard[2].beat.key_sig : null}</p>
                 </div>
                 )
             }

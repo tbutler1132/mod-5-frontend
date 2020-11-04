@@ -7,13 +7,13 @@ class Profile extends React.Component {
             <div className="profile-page">
                 <h1>Your Albums:</h1>
                 <h3>In progress</h3>
-                <p>You do not have an album in progress</p>
-                <button>Create</button>
+                <NavLink to="/album/1">Swizzed's Album</NavLink>
                 <h3>Complete</h3>
                 <p>You have no complete albums</p>
                 <h2>Contributing</h2>
                 <h3>Albums you are contributing to:</h3>
-                <NavLink to="/album/1">Swizzed's Album</NavLink>
+                <p>You do not have an album in progress</p>
+                <button>Create New Album</button>
                 
             </div>
         )

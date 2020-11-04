@@ -19,16 +19,16 @@ class PhaseThree extends React.Component {
 
 //COMPLETE
 
-    createVocalsLeaderBoard = () => {
-        const wins = this.props.vocalsArray.map(vocal => vocal.results.filter(result => result.win === true).length)
-        const vocalsWithWins = []
-        this.props.vocalsArray.forEach(function(v,i){
+    createMixesLeaderBoard = () => {
+        const wins = this.state.mixesArray.map(mix => mix.results.filter(result => result.win === true).length)
+        const mixesWithWins = []
+        this.state.mixesArray.forEach(function(v,i){
             const obj = {};
-            obj.vocal = v;
+            obj.mix = v;
             obj.wins = wins[i];
-            vocalsWithWins.push(obj);
+            mixesWithWins.push(obj);
         });
-        const sortedByWins = vocalsWithWins.sort(function (l, r) {
+        const sortedByWins = mixesWithWins.sort(function (l, r) {
             return r.wins - l.wins;
         });
         // this.setState({leaderboard: sortedByWins})
@@ -45,24 +45,24 @@ class PhaseThree extends React.Component {
 //IN PROGRESS
 
     render(){
-        if (this.props.songObj.phase > 3){
+        if (this.props.phase > 3){
             return(
                 this.props.songObj.vocals.length > 0 ? 
                     <div> 
                         <p>Vocal ID: {this.props.winningVocal.id} </p>
-                        <PhaseFour songObj={this.props.songObj} winningMix={this.filterMixes()} mixesArray={this.state.mixesArray}/>
+                        <PhaseFour songObj={this.props.songObj} winningMix={this.filterMixes()} mixesArray={this.state.mixesArray} mixesLeaderBoard={this.createMixesLeaderBoard()} phase={this.props.phase}/>
                     </div> 
                     : 
                     null
             )
         }
-        else if (this.props.songObj.phase === 3){
+        else if (this.props.phase === 3){
             return (
                 <div>
                     <h3>Leaderboard</h3>
-                    <p>1. {this.createVocalsLeaderBoard()[0] !== undefined ? this.createVocalsLeaderBoard()[0].vocal.id : null}</p>
-                    <p>2. {this.createVocalsLeaderBoard()[1] !== undefined ? this.createVocalsLeaderBoard()[1].vocal.id : null}</p>
-                    <p>3. {this.createVocalsLeaderBoard()[2] !== undefined ? this.createVocalsLeaderBoard()[2].vocal.id : null}</p>
+                    <p>1. {this.props.vocalsLeaderBoard[0] !== undefined ? this.props.vocalsLeaderBoard[0].vocal.id : null}</p>
+                    <p>2. {this.props.vocalsLeaderBoard[1] !== undefined ? this.props.vocalsLeaderBoard[1].vocal.id : null}</p>
+                    <p>3. {this.props.vocalsLeaderBoard[2] !== undefined ? this.props.vocalsLeaderBoard[2].vocal.id : null}</p>
                 </div>
             )
         }
