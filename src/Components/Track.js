@@ -1,12 +1,8 @@
 import React from 'react'
 import PhaseOne from './PhaseOne'
-import PhaseTwo from './PhaseTwo'
-import PhaseThree from './PhaseThree'
-import PhaseFour from './PhaseFour'
-import PhaseFive from './PhaseFive'
 import { Route, Switch, NavLink } from 'react-router-dom'
-import Poll from './Poll'
-import SubmitForm from './SubmitForm'
+// import Poll from './Poll'
+// import SubmitForm from './SubmitForm'
 
 class Track extends React.Component {
 
@@ -17,40 +13,36 @@ class Track extends React.Component {
         phase: this.props.songObj.phase,
 
         trackClicked: false,
-        pollResults: [],
+        pollResults: this.props.pollResults,
         pollClickedFirstTime: false,
         currentPollId: "",
         pollClickedAgain: false,
         
-        imagesArray: [],
+        imagesArray: this.props.songObj.ref_imgs,
         mixesArray: [],
         mastersArray: [],
 
-        winningImage:{}
+        winningImage: {}
     }
 
     
     
     componentDidMount = () => {
-        fetch("http://localhost:3000/results")
-        .then(r => r.json())
-        .then(results => this.setState({pollResults: results}))
-
-        if (this.state.songObj.phase === 1){
+        // if (this.state.songObj.phase === 1){
             fetch("http://localhost:3000/ref_imgs")
             .then(r => r.json())
             .then(images =>{ 
-                const filtered = images.filter(image => image.song.id === this.state.songObj.id)
-                this.setState({imagesArray: filtered})
+                // const filtered = images.filter(image => image.song.id === this.state.songObj.id)
+                // this.setState({imagesArray: filtered})
             }) 
-        } else if (this.state.songObj.phase === 5) {
-            fetch("http://localhost:3000/masters")
-            .then(r => r.json())
-            .then(masters =>{ 
-                const filtered = masters.filter(master => master.beat.beat.song_id === this.state.songObj.id)
-                this.setState({mastersArray: filtered})
-            }) 
-        }
+        // } else if (this.state.songObj.phase === 5) {
+        //     fetch("http://localhost:3000/masters")
+        //     .then(r => r.json())
+        //     .then(masters =>{ 
+        //         const filtered = masters.filter(master => master.beat.beat.song_id === this.state.songObj.id)
+        //         this.setState({mastersArray: filtered})
+        //     }) 
+        // }
     }
     
 /////////////////////////////////////////////////////////////////////////////////
@@ -75,53 +67,75 @@ class Track extends React.Component {
         }
     }
 
-    pollClickHandler = () => {
-       // Get all polls. If polls filtered by phase === songOBj.phase >= 15 declare winner, get state.leaderboard and take [0] and PATCH selected to true and PATCH phase to +1
-        if (this.state.pollClickedFirstTime === false){
-            this.setState({pollClickedFirstTime: true})
-        } 
-        const newPoll = {
-            phase: this.state.songObj.phase,
-            user_id: 73
-        }
-        const options = {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-              "accept": "application/json"
-            },
-            body: JSON.stringify({ poll: newPoll })
-          }
-        fetch("http://localhost:3000/polls", options)
-        .then(r => r.json())
-        .then(pollObj => {
-            console.log(pollObj.id)
-            this.setState({currentPollId: pollObj.id})
-        })
-    }
+    // pollClickHandler = () => {
+    //    // Get all polls. If polls filtered by phase === songOBj.phase >= 15 declare winner, get state.leaderboard and take [0] and PATCH selected to true and PATCH phase to +1
+    //     if (this.state.pollClickedFirstTime === false){
+    //         this.setState({pollClickedFirstTime: true})
+    //     } 
+    //     const newPoll = {
+    //         phase: this.state.songObj.phase,
+    //         user_id: 76
+    //     }
+    //     const options = {
+    //         method: "POST",
+    //         headers: {
+    //           "content-type": "application/json",
+    //           "accept": "application/json"
+    //         },
+    //         body: JSON.stringify({ poll: newPoll })
+    //       }
+    //     fetch("http://localhost:3000/polls", options)
+    //     .then(r => r.json())
+    //     .then(pollObj => {
+    //         console.log(pollObj)
+    //         this.setState({currentPollId: pollObj.id})
+    //     })
+    // }
 
 
 // LEADERBOARDS
 
-    createImageLeaderBoard = () => {
-        const wins = this.state.imagesArray.map(image => image.results.filter(result => result.win === true).length)
-        const imagesWithWins = []
-        this.state.imagesArray.forEach(function(v,i){
-            const obj = {};
-            obj.image = v;
-            obj.wins = wins[i];
-            imagesWithWins.push(obj);
-        });
-        const sortedByWins = imagesWithWins.sort(function (l, r) {
-            return r.wins - l.wins;
-        });
+    // createImageLeaderBoard = () => {
+    //     if (this.state.imagesArray.length > 0){
+    //     const wins = this.state.imagesArray.map(image => image.results.filter(result => result.win === true).length)
+    //     const imagesWithWins = []
+    //     this.state.imagesArray.forEach(function(v,i){
+    //         const obj = {};
+    //         obj.image = v;
+    //         obj.wins = wins[i];
+    //         imagesWithWins.push(obj);
+    //     });
+    //     const sortedByWins = imagesWithWins.sort(function (l, r) {
+    //         return r.wins - l.wins;
+    //     });
         
-        return sortedByWins
-    }
+    //     return sortedByWins
+    //     }
+    //     else {
+    //         return [null, null, null]
+    //     }
+    // }
+
+
+    // filterSongImages = () => {
+    //     const filtered = this.state.imagesArray.filter(image => image.song.id === this.state.songObj.id)
+    //     console.log(this.state.songObj.id)
+    //     this.setState({imagesArray: filtered})
+    // }
 
 
 
 //      WINNERS
+
+    filterResults = () => {
+
+        const results = this.state.pollResults
+        // console.log(this.state.songObj.id)
+        // const ear = results.filter(result => result.winnable.song.id === this.props.songObj.id)
+        console.log(results)
+        
+
+    }
 
     filterSelectedBeats = () => {
         const winner = this.props.songObj.beats.filter(beat => beat.selected)
@@ -190,6 +204,7 @@ class Track extends React.Component {
     
 
     render(){
+
         return(
             <div className="track" >
                 {/* <NavLink to={`tracks/${this.props.songObj.id}`}> */}
@@ -205,9 +220,12 @@ class Track extends React.Component {
                 referenceResults={this.referenceResults()} 
                 winningImage={this.filterSelectedImages()} 
                 imagesArray={this.state.imagesArray} 
-                imageLeaderboard={this.createImageLeaderBoard()} 
+                // imageLeaderboard={this.createImageLeaderBoard()} 
                 phase={this.state.phase}
                 pollId={this.state.currentPollId}
+                newPoll={this.pollClickHandler}
+                pollId={this.state.currentPollId}
+                pollResults={this.state.pollResults}
                 />
                 
                 
@@ -215,8 +233,8 @@ class Track extends React.Component {
                 
                 {/* {this.state.songObj.phase === 6 ? null :<button>Submit</button>} */}
                 {this.state.songObj.phase === 6 ? null : <button onClick={this.pollClickHandler}>Vote on poll</button>}
-                {this.state.pollClickedFirstTime === true ? <Poll  songObj={this.state.songObj} pollId={this.state.currentPollId} newPoll={this.pollClickHandler} phase={this.state.phase}/> : null}
-                {/* <SubmitForm songObj={this.state.songObj} winningBeat={this.filterSelectedBeats()} winningVocal={this.filterVocals()} winningMix={this.filterMixes()} winningMaster={this.filterMasters()} phase={this.state.phase}/> */}
+                {/* {this.state.pollClickedFirstTime === true ? <Poll  songObj={this.state.songObj} pollId={this.state.currentPollId} newPoll={this.pollClickHandler} phase={this.state.phase}/> : null}
+                <SubmitForm songObj={this.state.songObj} winningBeat={this.filterSelectedBeats()} winningVocal={this.filterVocals()} winningMix={this.filterMixes()} winningMaster={this.filterMasters()} phase={this.state.phase}/> */}
                 {/* <Route path="poll" component={Poll} />  */}
                 <button onClick={this.phaseChange}>Initiate New Phase</button>
                 </div>

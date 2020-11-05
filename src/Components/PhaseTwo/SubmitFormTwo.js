@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PollTwo from './PollTwo'
 
 class SubmitFormTwo extends React.Component{
 
@@ -22,7 +22,7 @@ class SubmitFormTwo extends React.Component{
             bpm: this.state.beatBpm,
             key_sig: this.state.beatKeySig,
             selected: false,
-            user_id: 73,
+            user_id: 76,
             song_id: this.props.songObj.id
         }
         const options = {
@@ -39,6 +39,7 @@ class SubmitFormTwo extends React.Component{
     }
 
     render(){
+        console.log(this.props.songObj)
         return(
             <>
                 <h5>Submit a Beat</h5>
@@ -49,6 +50,7 @@ class SubmitFormTwo extends React.Component{
                     {/* <input type="text" name="beatUrl" value={this.state.beatUrl} onChange={this.changeHandler} /> */}
                     <button>Submit beat</button>
                 </form>
+                {/* <PollTwo pollId={this.props.currentPollId} songObj={this.props.songObj}/> */}
             </>
         )
     }

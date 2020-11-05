@@ -5,18 +5,23 @@ import {Route, Switch} from 'react-router-dom'
 class Album extends React.Component {
 
     state = {
-        trackArray: []
+        trackArray: [],
+        pollResults: []
     }
 
     componentDidMount = () => {
         fetch("http://localhost:3000/songs")
         .then(r => r.json())
         .then(songs => this.setState({trackArray: songs}))
+
+        fetch("http://localhost:3000/results")
+        .then(r => r.json())
+        .then(results => this.setState({pollResults: results}))
     }
 
 
     renderTracks = () => {
-        return this.state.trackArray.map(songObj => <Track key={songObj.id} songObj={songObj} ear="ear"/>)
+        return this.state.trackArray.map(songObj => <Track key={songObj.id} songObj={songObj} ear="ear" pollResults={this.state.pollResults}/>)
     }
 
     render(){
@@ -31,7 +36,7 @@ class Album extends React.Component {
     
                             let id = parseInt(match.params.id)
                             let foundTrack = this.state.trackArray.find((track) => track.id === id)
-                            return <Track track={foundTrack} appClickHandler={this.props.appClickHandler} songObj={foundTrack}/>
+                            return <Track track={foundTrack} appClickHandler={this.props.appClickHandler} songObj={foundTrack} pollResults={this.state.pollResults}/>
     
     
                         }}/>

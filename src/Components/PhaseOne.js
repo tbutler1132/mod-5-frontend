@@ -106,35 +106,42 @@ class PhaseOne extends React.Component {
         
         
         render(){
-            // console.log(this.props.winningImage.img_url)
-            if (this.props.phase > 1) {
-                return(
-                    this.props.songObj.ref_imgs.length > 0 ? 
-                    <div>
-                        <h3>Artwork</h3>
-                        <img src={this.props.winningImage.img_url} width="200" height="200"/>
-                        <PhaseTwo songObj={this.props.songObj} winningBeat={this.filterSelectedBeats()} beatsArray={this.state.beatsArray} beatsLeaderBoard={this.createBeatsLeaderBoard()} phase={this.props.phase}/> 
-                    </div> 
-                    : 
-                    null
-                )
-            } else if (this.props.phase === 1) {
+
+            // if (this.props.phase > 1) {
+            //     return(
+            //         this.props.songObj.ref_imgs.length > 0 ? 
+            //         <div>
+            //             <h3>Artwork</h3>
+            //             <img src={this.props.winningImage.img_url} width="200" height="200"/>
+            //             <PhaseTwo songObj={this.props.songObj} winningBeat={this.filterSelectedBeats()} beatsArray={this.state.beatsArray} beatsLeaderBoard={this.createBeatsLeaderBoard()} phase={this.props.phase}/> 
+            //         </div> 
+            //         : 
+            //         null
+            //     )
+            // } else if (this.props.phase === 1) {
                 return(
                 <div>
-                    <SubmitFormOne songObj={this.props.songObj}/>
-                    <PollOne />
-                    <h3>Artwork Leaderboard</h3>
-                    <p>1. <img src={this.props.imageLeaderboard[0].image.img_url} width="125" height="100"/></p>
+                    <SubmitFormOne 
+                        songObj={this.props.songObj} 
+                        newPoll={this.props.newPoll} 
+                        pollId={this.props.pollId} 
+                        imageLeaderboard={this.props.imageLeaderboard}
+                        pollResults={this.props.pollResults}
+                        imagesArray={this.props.imagesArray}
+                    />
+                    {/* <PollOne /> */}
+                    {/* <h3>Artwork Leaderboard</h3>
+                    <p>1. <img src={this.props.imageLeaderboard[0].image.img_url} width="125" height="100"/></p> */}
                     {/* <p>{this.props.imageLeaderboard[0].wins}</p> */}
-                    <p>2. <img src={this.props.imageLeaderboard[1].image.img_url} width="125" height="100"/></p>
-                    <p>3. <img src={this.props.imageLeaderboard[2].image.img_url} width="125" height="100"/></p>
+                    {/* <p>2. <img src={this.props.imageLeaderboard[1].image.img_url} width="125" height="100"/></p>
+                    <p>3. <img src={this.props.imageLeaderboard[2].image.img_url} width="125" height="100"/></p> */}
                 </div>
                 )
-            } else {
-                return(
-                    null
-                )
-            }
+            // } else {
+            //     return(
+            //         null
+            //     )
+           // }
         }
     }
 
