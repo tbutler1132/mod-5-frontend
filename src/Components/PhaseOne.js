@@ -1,12 +1,15 @@
 import React from 'react'
 import PhaseTwo from './PhaseTwo'
+import SubmitFormOne from './PhaseOne/SubmitFormOne'
+import PollOne from './PhaseOne/PollOne'
 
 
 
 class PhaseOne extends React.Component {
 
     state = {
-        beatsArray: []
+        beatsArray: [],
+        selectedBeat: {}
     }
 
     componentDidMount = () => {
@@ -23,6 +26,7 @@ class PhaseOne extends React.Component {
     filterSelectedBeats = () => {
         const winner = this.props.songObj.beats.filter(beat => beat.selected)
             if (winner){
+                // this.setState({selectedBeat: winner[0]})
                 return winner[0]
             }
     }
@@ -117,6 +121,8 @@ class PhaseOne extends React.Component {
             } else if (this.props.phase === 1) {
                 return(
                 <div>
+                    <SubmitFormOne songObj={this.props.songObj}/>
+                    <PollOne />
                     <h3>Artwork Leaderboard</h3>
                     <p>1. <img src={this.props.imageLeaderboard[0].image.img_url} width="125" height="100"/></p>
                     {/* <p>{this.props.imageLeaderboard[0].wins}</p> */}

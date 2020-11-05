@@ -56,7 +56,7 @@ class PhaseFour extends React.Component {
         } else if (this.props.phase === 4){
             return (
                 <div>
-                    <h3>Leaderboard</h3>
+                    <h3>Mixes Leaderboard</h3>
                     <p>1. {this.props.mixesLeaderBoard[0] !== undefined ? this.props.mixesLeaderBoard[0].mix.id : null}</p>
                     <p>2. {this.props.mixesLeaderBoard[1] !== undefined ? this.props.mixesLeaderBoard[1].mix.id : null}</p>
                     <p>3. {this.props.mixesLeaderBoard[2] !== undefined ? this.props.mixesLeaderBoard[2].mix.id : null}</p>

@@ -1,6 +1,7 @@
 import React from 'react'
 import PhaseThree from './PhaseThree'
-import SubmitForm from './SubmitForm'
+import SubmitFormTwo from './PhaseTwo/SubmitFormTwo'
+import PollTwo from './PhaseTwo/PollTwo'
 
 class PhaseTwo extends React.Component {
 
@@ -80,6 +81,8 @@ class PhaseTwo extends React.Component {
             else if (this.props.phase === 2){
                 return (
                 <div>
+                    <SubmitFormTwo songObj={this.props.songObj}/>
+                    <PollTwo pollId={this.props.currentPollId}/>
                     <h3>Beats Leaderboard</h3>
                     <p>1. {this.props.beatsLeaderBoard[0] !== undefined ? this.props.beatsLeaderBoard[0].beat.key_sig : null}</p>
                     <p>2. {this.props.beatsLeaderBoard[1] !== undefined ? this.props.beatsLeaderBoard[1].beat.key_sig : null}</p>
