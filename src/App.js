@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import Album from './Containers/Album'
 import { Route, Switch } from 'react-router-dom'
-import Track from './Components/Track'
+// import Track from './Components/Track'
 import Profile from './Components/Profile'
 import Login from './Components/Login'
 import React from 'react'

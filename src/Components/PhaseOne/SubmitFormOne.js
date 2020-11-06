@@ -1,5 +1,5 @@
 import React from 'react'
-import PollOne from './PollOne'
+
 
 
 class SubmitFormOne extends React.Component {
@@ -8,11 +8,19 @@ class SubmitFormOne extends React.Component {
         imageTitle: "",
         imageUrl: "",
 
-        imagesArray: this.props.imagesArray
+        imagesArray: this.props.imagesArray,
     }
 
+    selectPollChoices = () => {
+                
+        const shuffled = this.state.imagesArray.sort(() => 0.5 - Math.random());
+        let choices = shuffled.slice(0, 2);
+        
+        return choices.map(choice => choice)
+
+    }  
+
     changeHandler = (e) => {
-        console.log("changing")
         this.setState({ [e.target.name]: e.target.value })
     }
 
@@ -38,7 +46,11 @@ class SubmitFormOne extends React.Component {
           }
         fetch("http://localhost:3000/ref_imgs", options)
         .then(r => r.json())
-        .then(refImgObj => console.log(refImgObj))
+        .then(refImgObj => {
+            console.log(refImgObj)
+            let newArray = [...this.props.imagesArray, refImgObj]
+            this.props.trackDataFlow(newArray)
+        })
     }
 
     render (){
@@ -50,7 +62,6 @@ class SubmitFormOne extends React.Component {
                     {/* <input type="text" name="beatUrl" value={this.state.beatUrl} onChange={this.changeHandler} /> */}
                     <button>Submit image</button>
                 </form>
-                <PollOne songObj={this.props.songObj} newPoll={this.props.newPoll} pollId={this.props.pollId} imagesArray={this.props.imagesArray} pollResults={this.props.pollResults}/>
              </>
         )
         

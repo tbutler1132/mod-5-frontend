@@ -5,7 +5,9 @@ class PollOne extends React.Component{
 
     state = {
 
-        imagesArray: this.props.imagesArray,
+        imageLeaderboard: this.props.createImageLeaderBoard,
+        
+        
         
         pollResults: this.props.pollResults,
         
@@ -13,34 +15,17 @@ class PollOne extends React.Component{
         
         clicked: false,
 
-        buttonDisable: ""
+        buttonDisable: "",
+
+        selectPollChoices: this.props.selectPollChoices()
     }
 
-    filterResults = () => {
-        const winners = this.props.pollResults.filter (result => result.win === true)
-        return winners.filter (winner => winner.winnable.song.id === this.props.songObj.id)
-    }
+    // filterResults = () => {
+    //     const winners = this.state.pollResults.filter (result => result.win === true)
+    //     return winners.filter (winner => winner.winnable.song.id === this.props.songObj.id)
+    // }
 
-    createImageLeaderBoard = () => {
-        if (this.state.imagesArray.length > 0){
-        const wins = this.state.imagesArray.map(image => image.results.filter(result => result.win === true).length)
-        const imagesWithWins = []
-        this.state.imagesArray.forEach(function(v,i){
-            const obj = {};
-            obj.image = v;
-            obj.wins = wins[i];
-            imagesWithWins.push(obj);
-        });
-        const sortedByWins = imagesWithWins.sort(function (l, r) {
-            return r.wins - l.wins;
-        });
-        
-        return sortedByWins
-        }
-        else {
-            return [null, null, null]
-        }
-    }
+
 
     pollClickHandler = () => {
 
@@ -59,7 +44,6 @@ class PollOne extends React.Component{
         fetch("http://localhost:3000/polls", options)
         .then(r => r.json())
         .then(pollObj => {
-            console.log(pollObj)
             this.setState({currentPollId: pollObj.id})
         })
 
@@ -67,19 +51,11 @@ class PollOne extends React.Component{
 
     }
     
-    selectPollChoices = () => {
-
-                const shuffled = this.props.songObj.ref_imgs.sort(() => 0.5 - Math.random());
-                let choices = shuffled.slice(0, 2);
-                
-                return choices.map(choice => choice)
-
-    }    
+  
 
     voteClickHandler = (e) => {
         this.setState({buttonDisable: "disable"})
-        let optionId = (e.target.name === "1") ? this.selectPollChoices()[0].id : this.selectPollChoices()[1].id
-        console.log(this.props.songObj.id)
+        let optionId = (e.target.name === "1") ? this.state.selectPollChoices[0].id : this.state.selectPollChoices[1].id
         const newResult = {
             win: true,
             winnable_id: optionId,
@@ -97,26 +73,41 @@ class PollOne extends React.Component{
         fetch("http://localhost:3000/results", options)
         .then(r => r.json())
         .then(resultObj => {
-            console.log(resultObj)
+            console.log(resultObj.winnable)
+            const imageToBeUpdated = this.state.imageLeaderboard.find(image => image.image.id === resultObj.winnable.id)
+            console.log(imageToBeUpdated)
+            const newEl = {image: imageToBeUpdated.image, wins: imageToBeUpdated.wins + 1}
+            console.log(newEl)
+            const imageToBeUpdatedIndex = this.state.imageLeaderboard.indexOf(imageToBeUpdated)
+            let newArray = [...this.state.imageLeaderboard]
+            newArray.splice(imageToBeUpdatedIndex, 1, newEl)
+            console.log(newArray)
+
+            const sortedByWins = newArray.sort(function (l, r) {
+                return r.wins - l.wins;
+            });
+            this.setState({imageLeaderboard: sortedByWins})
         })
+
+        this.setState({clicked: false})
     }
 
     render(){
-        console.log(this.filterResults())
+        console.log(this.state.imageLeaderboard)
         return(
             <div>
-                <button onClick={this.selectPollChoices, this.pollClickHandler}>Click to Create Poll!</button>
+                <button onClick={this.props.selectPollChoices, this.pollClickHandler}>Click to Create Poll!</button>
                 {this.state.clicked === true ?
-                <>
-                <img alt={this.selectPollChoices()[0].id} src={this.selectPollChoices()[0].img_url} width="250" height="200"/>
-                {this.selectPollChoices()[0] !== null ? <button name="1" onClick={this.voteClickHandler}>Vote</button> : null}
-                <img alt={this.selectPollChoices()[1].id} src={this.selectPollChoices()[1].img_url} width="250" height="200"/>
-                {this.selectPollChoices()[1] !== null ? <button name="2" onClick={this.voteClickHandler}>Vote</button> : null}
-                </>
+                <div>
+                    <img alt={this.state.selectPollChoices[0].id} src={this.state.selectPollChoices[0].img_url} width="250" height="200"/>
+                    {this.state.selectPollChoices[0] !== null ? <button name="1" onClick={this.voteClickHandler}>Vote</button> : null}
+                    <img alt={this.state.selectPollChoices[1].id} src={this.state.selectPollChoices[1].img_url} width="250" height="200"/>
+                    {this.state.selectPollChoices[1] !== null ? <button name="2" onClick={this.voteClickHandler}>Vote</button> : null}
+                </div>
                 :
                 null
                 }
-                <LeaderBoardOne songObj={this.props.songObj} imageLeaderboard={this.props.imageLeaderboard}/>
+                <LeaderBoardOne songObj={this.props.songObj} imageLeaderboard={this.state.imageLeaderboard}/>
             </div>
         )
     }

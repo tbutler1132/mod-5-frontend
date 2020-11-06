@@ -1,6 +1,6 @@
 import React from 'react'
 import PhaseOne from './PhaseOne'
-import { Route, Switch, NavLink } from 'react-router-dom'
+// import { Route, Switch, NavLink } from 'react-router-dom'
 // import Poll from './Poll'
 // import SubmitForm from './SubmitForm'
 
@@ -18,7 +18,7 @@ class Track extends React.Component {
         currentPollId: "",
         pollClickedAgain: false,
         
-        imagesArray: this.props.songObj.ref_imgs,
+        imagesArray: [],
         mixesArray: [],
         mastersArray: [],
 
@@ -32,8 +32,8 @@ class Track extends React.Component {
             fetch("http://localhost:3000/ref_imgs")
             .then(r => r.json())
             .then(images =>{ 
-                // const filtered = images.filter(image => image.song.id === this.state.songObj.id)
-                // this.setState({imagesArray: filtered})
+                const filtered = images.filter(image => image.song.id === this.state.songObj.id)
+                this.setState({imagesArray: filtered})
             }) 
         // } else if (this.state.songObj.phase === 5) {
         //     fetch("http://localhost:3000/masters")
@@ -65,6 +65,14 @@ class Track extends React.Component {
         } else {
             this.setState({trackClicked: false})
         }
+    }
+
+    trackDataFlow = (newImagesArray) => {
+        this.setState({imagesArray: newImagesArray})
+    }
+
+    leaderBoardDataFlow = () => {
+
     }
 
     // pollClickHandler = () => {
@@ -127,52 +135,52 @@ class Track extends React.Component {
 
 //      WINNERS
 
-    filterResults = () => {
+    // filterResults = () => {
 
-        const results = this.state.pollResults
-        // console.log(this.state.songObj.id)
-        // const ear = results.filter(result => result.winnable.song.id === this.props.songObj.id)
-        console.log(results)
+    //     const results = this.state.pollResults
+    //     // console.log(this.state.songObj.id)
+    //     // const ear = results.filter(result => result.winnable.song.id === this.props.songObj.id)
+    //     console.log(results)
         
 
-    }
+    // }
 
-    filterSelectedBeats = () => {
-        const winner = this.props.songObj.beats.filter(beat => beat.selected)
-            if (winner){
-                return winner[0]
-            }
-    }
+    // filterSelectedBeats = () => {
+    //     const winner = this.props.songObj.beats.filter(beat => beat.selected)
+    //         if (winner){
+    //             return winner[0]
+    //         }
+    // }
 
-    filterSelectedImages = () => {
-        const winner = this.state.songObj.ref_imgs.filter(image => image.selected)
-        if (winner){
-            return winner[0]
-        }
-    }
+    // filterSelectedImages = () => {
+    //     const winner = this.state.songObj.ref_imgs.filter(image => image.selected)
+    //     if (winner){
+    //         return winner[0]
+    //     }
+    // }
 
 
 
-    filterVocals = () => {
-        if (this.state.songObj.vocals.length > 0){
-            const winner = this.state.songObj.vocals.filter(vocal => vocal.selected === true)
-            return winner[0]
-        } 
-    }
+    // filterVocals = () => {
+    //     if (this.state.songObj.vocals.length > 0){
+    //         const winner = this.state.songObj.vocals.filter(vocal => vocal.selected === true)
+    //         return winner[0]
+    //     } 
+    // }
 
-    filterMixes = () => {
-        if (this.state.songObj.mixes.length > 0){
-            const winner = this.state.songObj.mixes.filter(mix => mix.selected === true)
-            return winner[0]
-        } 
-    }
+    // filterMixes = () => {
+    //     if (this.state.songObj.mixes.length > 0){
+    //         const winner = this.state.songObj.mixes.filter(mix => mix.selected === true)
+    //         return winner[0]
+    //     } 
+    // }
 
-    filterMasters = () => {
-        if (this.state.songObj.masters.length > 0){
-            const winner = this.state.songObj.masters.filter(master => master.selected === true)
-            return winner[0]
-        } 
-    }
+    // filterMasters = () => {
+    //     if (this.state.songObj.masters.length > 0){
+    //         const winner = this.state.songObj.masters.filter(master => master.selected === true)
+    //         return winner[0]
+    //     } 
+    // }
 
     phaseChange = () => {
         const newPhase = this.state.phase + 1
@@ -204,7 +212,6 @@ class Track extends React.Component {
     
 
     render(){
-
         return(
             <div className="track" >
                 {/* <NavLink to={`tracks/${this.props.songObj.id}`}> */}
@@ -218,7 +225,7 @@ class Track extends React.Component {
                 <PhaseOne 
                 songObj={this.state.songObj} 
                 referenceResults={this.referenceResults()} 
-                winningImage={this.filterSelectedImages()} 
+                // winningImage={this.filterSelectedImages()} 
                 imagesArray={this.state.imagesArray} 
                 // imageLeaderboard={this.createImageLeaderBoard()} 
                 phase={this.state.phase}
@@ -226,6 +233,7 @@ class Track extends React.Component {
                 newPoll={this.pollClickHandler}
                 pollId={this.state.currentPollId}
                 pollResults={this.state.pollResults}
+                trackDataFlow={this.trackDataFlow}
                 />
                 
                 
