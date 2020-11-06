@@ -31,7 +31,7 @@ class PollOne extends React.Component{
 
         const newPoll = {
             phase: this.props.songObj.phase,
-            user_id: 82
+            user_id: 94
         }
         const options = {
             method: "POST",
@@ -93,7 +93,7 @@ class PollOne extends React.Component{
     }
 
     render(){
-        console.log(this.state.imageLeaderboard)
+        console.log(this.props.imageDataFlow)
         return(
             <div>
                 <button onClick={this.props.selectPollChoices, this.pollClickHandler}>Click to Create Poll!</button>
@@ -107,7 +107,7 @@ class PollOne extends React.Component{
                 :
                 null
                 }
-                <LeaderBoardOne songObj={this.props.songObj} imageLeaderboard={this.state.imageLeaderboard}/>
+                <LeaderBoardOne songObj={this.props.songObj} imageLeaderboard={this.state.imageLeaderboard} imageDataFlow={this.props.imageDataFlow}/>
             </div>
         )
     }

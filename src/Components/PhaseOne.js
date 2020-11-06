@@ -7,12 +7,7 @@ import PollOne from './PhaseOne/PollOne'
 
 class PhaseOne extends React.Component {
 
-    state = {
-        // pollChoices: []
-        // beatsArray: [],
-        // imagesArray: this.props.imagesArray,
-        // selectedBeat: {}
-    }
+
 
     // componentDidMount = () => {
 
@@ -141,6 +136,7 @@ class PhaseOne extends React.Component {
         
         
         render(){
+            console.log(this.props.imageDataFlow)
             // if (this.props.phase > 1) {
             //     return(
             //         this.props.songObj.ref_imgs.length > 0 ? 
@@ -163,8 +159,9 @@ class PhaseOne extends React.Component {
                         pollResults={this.props.pollResults}
                         imagesArray={this.props.imagesArray}
                         trackDataFlow={this.props.trackDataFlow}
+                        
                     />
-                    <PollOne createImageLeaderBoard={this.createImageLeaderBoard()} songObj={this.props.songObj} newPoll={this.props.newPoll} pollId={this.props.pollId} imagesArray={this.props.imagesArray} pollResults={this.props.pollResults} selectPollChoices={this.selectPollChoices}/>
+                    <PollOne imageDataFlow={this.props.imageDataFlow} createImageLeaderBoard={this.createImageLeaderBoard()} songObj={this.props.songObj} newPoll={this.props.newPoll} pollId={this.props.pollId} imagesArray={this.props.imagesArray} pollResults={this.props.pollResults} selectPollChoices={this.selectPollChoices}/>
                     {/* <PollOne /> */}
                     {/* <h3>Artwork Leaderboard</h3>
                     <p>1. <img src={this.props.imageLeaderboard[0].image.img_url} width="125" height="100"/></p> */}

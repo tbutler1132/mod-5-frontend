@@ -22,7 +22,7 @@ class Track extends React.Component {
         mixesArray: [],
         mastersArray: [],
 
-        winningImage: {}
+        selectedImage: {}
     }
 
     
@@ -70,6 +70,12 @@ class Track extends React.Component {
     trackDataFlow = (newImagesArray) => {
         this.setState({imagesArray: newImagesArray})
     }
+
+    imageDataFlow = (imageObj, songObj) => {
+        this.setState({selectedImage: imageObj})
+        this.setState({phase: songObj.phase})
+    }
+
 
     leaderBoardDataFlow = () => {
 
@@ -222,10 +228,11 @@ class Track extends React.Component {
                 
                 {this.state.trackClicked === true ?
                 <div>
+                {this.state.phase === 1 ?
                 <PhaseOne 
                 songObj={this.state.songObj} 
                 referenceResults={this.referenceResults()} 
-                // winningImage={this.filterSelectedImages()} 
+                imageDataFlow={this.imageDataFlow} 
                 imagesArray={this.state.imagesArray} 
                 // imageLeaderboard={this.createImageLeaderBoard()} 
                 phase={this.state.phase}
@@ -235,16 +242,22 @@ class Track extends React.Component {
                 pollResults={this.state.pollResults}
                 trackDataFlow={this.trackDataFlow}
                 />
+
+                :
+
+                <img alt="" src={this.state.selectedImage.img_url} width="125" height="100"/>
+
+                }
                 
                 
                 
                 
                 {/* {this.state.songObj.phase === 6 ? null :<button>Submit</button>} */}
-                {this.state.songObj.phase === 6 ? null : <button onClick={this.pollClickHandler}>Vote on poll</button>}
+                {/* {this.state.songObj.phase === 6 ? null : <button onClick={this.pollClickHandler}>Vote on poll</button>} */}
                 {/* {this.state.pollClickedFirstTime === true ? <Poll  songObj={this.state.songObj} pollId={this.state.currentPollId} newPoll={this.pollClickHandler} phase={this.state.phase}/> : null}
                 <SubmitForm songObj={this.state.songObj} winningBeat={this.filterSelectedBeats()} winningVocal={this.filterVocals()} winningMix={this.filterMixes()} winningMaster={this.filterMasters()} phase={this.state.phase}/> */}
                 {/* <Route path="poll" component={Poll} />  */}
-                <button onClick={this.phaseChange}>Initiate New Phase</button>
+                {/* <button onClick={this.phaseChange}>Initiate New Phase</button> */}
                 </div>
                 : 
                 null
