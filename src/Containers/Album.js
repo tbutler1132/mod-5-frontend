@@ -14,9 +14,9 @@ class Album extends React.Component {
         .then(r => r.json())
         .then(songs => this.setState({trackArray: songs}))
 
-        fetch("http://localhost:3000/results")
-        .then(r => r.json())
-        .then(results => this.setState({pollResults: results}))
+        // fetch("http://localhost:3000/results")
+        // .then(r => r.json())
+        // .then(results => this.setState({pollResults: results}))
     }
 
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import PhaseOne from './PhaseOne'
+import PhaseTwo from './PhaseTwo'
 // import { Route, Switch, NavLink } from 'react-router-dom'
 // import Poll from './Poll'
 // import SubmitForm from './SubmitForm'
@@ -19,30 +20,35 @@ class Track extends React.Component {
         pollClickedAgain: false,
         
         imagesArray: [],
-        mixesArray: [],
+        beatsArray: [],
         mastersArray: [],
 
-        selectedImage: {}
+        selectedImage: {},
+        selectedBeat: {}
     }
 
     
     
     componentDidMount = () => {
-        // if (this.state.songObj.phase === 1){
+       
             fetch("http://localhost:3000/ref_imgs")
             .then(r => r.json())
             .then(images =>{ 
                 const filtered = images.filter(image => image.song.id === this.state.songObj.id)
-                this.setState({imagesArray: filtered})
+                const selected = filtered.filter(image => image.selected === true)[0]
+                this.setState({imagesArray: filtered, selectedImage: selected})
+                
             }) 
-        // } else if (this.state.songObj.phase === 5) {
-        //     fetch("http://localhost:3000/masters")
-        //     .then(r => r.json())
-        //     .then(masters =>{ 
-        //         const filtered = masters.filter(master => master.beat.beat.song_id === this.state.songObj.id)
-        //         this.setState({mastersArray: filtered})
-        //     }) 
-        // }
+     
+            fetch("http://localhost:3000/beats")
+            .then(r => r.json())
+            .then(beats =>{ 
+                const filtered = beats.filter(beat => beat.song.id === this.state.songObj.id)
+                const selected = filtered.filter(beat => beat.selected === true)[0]
+                this.setState({beatsArray: filtered, selectedBeat: selected})
+            }) 
+        
+
     }
     
 /////////////////////////////////////////////////////////////////////////////////
@@ -73,6 +79,15 @@ class Track extends React.Component {
 
     imageDataFlow = (imageObj, songObj) => {
         this.setState({selectedImage: imageObj})
+        this.setState({phase: songObj.phase})
+    }
+
+    beatsArrayDataFlow = (newBeatsArray) => {
+        this.setState({beatsArray: newBeatsArray})
+    }
+
+    beatDataFlow = (beatObj, songObj) => {
+        this.setState({selectedBeat: beatObj})
         this.setState({phase: songObj.phase})
     }
 
@@ -244,8 +259,30 @@ class Track extends React.Component {
                 />
 
                 :
-
+                this.state.phase === 2 ?
+                <>
                 <img alt="" src={this.state.selectedImage.img_url} width="125" height="100"/>
+                <PhaseTwo 
+                songObj={this.state.songObj}
+                beatsArray={this.state.beatsArray}
+                beatsArrayDataFlow={this.beatsArrayDataFlow}
+                beatDataFlow={this.beatDataFlow}
+                phase={this.state.phase}
+                pollId={this.state.currentPollId}
+                newPoll={this.pollClickHandler}
+                pollId={this.state.currentPollId}
+                pollResults={this.state.pollResults}
+                />
+                </>
+                :
+                this .state.phase === 3 ?
+                <>
+                <img alt="" src={this.state.selectedImage.img_url} width="125" height="100"/>
+                <p>Beat winner: {this.state.selectedBeat.key_sig}</p>
+                </>
+                :
+                null
+
 
                 }
                 

@@ -32,7 +32,7 @@ class PollOne extends React.Component{
         this.setState({selectPollChoices: this.props.selectPollChoices()})
         const newPoll = {
             phase: this.props.songObj.phase,
-            user_id: 97
+            user_id: 112
         }
         const options = {
             method: "POST",
@@ -97,7 +97,7 @@ class PollOne extends React.Component{
         return(
             <div>
                 <button onClick={this.pollClickHandler}>Click to Create Poll!</button>
-                {this.state.clicked === true ?
+                {this.state.clicked === true && this.state.selectPollChoices.length > 0 ?
                 <div>
                     <img alt={this.state.selectPollChoices[0].id} src={this.state.selectPollChoices[0].img_url} width="250" height="200"/>
                     {this.state.selectPollChoices[0] !== null ? <button disabled={false} name="1" onClick={this.voteClickHandler}>Vote</button> : null}

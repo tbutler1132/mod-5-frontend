@@ -9,10 +9,20 @@ class SubmitFormTwo extends React.Component{
         beatKeySig: "",
         beatUrl: "",
 
+        beatsArray: this.props.beatsArray
+
     }
 
+    selectPollChoices = () => {
+                
+        const shuffled = this.state.beatsArray.sort(() => 0.5 - Math.random());
+        let choices = shuffled.slice(0, 2);
+        
+        return choices.map(choice => choice)
+
+    }  
+
     changeHandler = (e) => {
-        console.log("changing")
         this.setState({ [e.target.name]: e.target.value })
     }
 
@@ -22,7 +32,7 @@ class SubmitFormTwo extends React.Component{
             bpm: this.state.beatBpm,
             key_sig: this.state.beatKeySig,
             selected: false,
-            user_id: 76,
+            user_id: 112,
             song_id: this.props.songObj.id
         }
         const options = {
@@ -35,11 +45,14 @@ class SubmitFormTwo extends React.Component{
           }
         fetch("http://localhost:3000/beats", options)
         .then(r => r.json())
-        .then(beatObj => console.log(beatObj))
+        .then(beatObj => {
+            console.log(beatObj)
+            let newArray = [...this.props.beatsArray, beatObj]
+            this.props.beatsArrayDataFlow(newArray)
+        })
     }
 
     render(){
-        console.log(this.props.songObj)
         return(
             <>
                 <h5>Submit a Beat</h5>

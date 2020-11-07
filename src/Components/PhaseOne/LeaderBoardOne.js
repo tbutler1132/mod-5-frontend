@@ -1,5 +1,5 @@
 import React from 'react'
-import PhaseTwo from '../PhaseTwo'
+
 
 class LeaderBoardOne extends React.Component{
 
