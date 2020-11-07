@@ -8,7 +8,7 @@ import PollOne from './PhaseOne/PollOne'
 class PhaseOne extends React.Component {
 
 
-
+    
     // componentDidMount = () => {
 
     //         fetch("http://localhost:3000/ref_imgs")
@@ -36,7 +36,6 @@ class PhaseOne extends React.Component {
         
         const shuffled = this.props.imagesArray.sort(() => 0.5 - Math.random());
         let choices = shuffled.slice(0, 2);
-        
         const pollOptions = choices.map(choice => choice)
         // this.setState({pollChoices: pollOptions})
         return choices
@@ -136,7 +135,6 @@ class PhaseOne extends React.Component {
         
         
         render(){
-            console.log(this.props.imageDataFlow)
             // if (this.props.phase > 1) {
             //     return(
             //         this.props.songObj.ref_imgs.length > 0 ? 

@@ -28,10 +28,11 @@ class PollOne extends React.Component{
 
 
     pollClickHandler = () => {
-
+        this.setState({buttonDisable: true})
+        this.setState({selectPollChoices: this.props.selectPollChoices()})
         const newPoll = {
             phase: this.props.songObj.phase,
-            user_id: 94
+            user_id: 97
         }
         const options = {
             method: "POST",
@@ -54,7 +55,7 @@ class PollOne extends React.Component{
   
 
     voteClickHandler = (e) => {
-        this.setState({buttonDisable: "disable"})
+        this.setState({buttonDisable: true})
         let optionId = (e.target.name === "1") ? this.state.selectPollChoices[0].id : this.state.selectPollChoices[1].id
         const newResult = {
             win: true,
@@ -93,16 +94,15 @@ class PollOne extends React.Component{
     }
 
     render(){
-        console.log(this.props.imageDataFlow)
         return(
             <div>
-                <button onClick={this.props.selectPollChoices, this.pollClickHandler}>Click to Create Poll!</button>
+                <button onClick={this.pollClickHandler}>Click to Create Poll!</button>
                 {this.state.clicked === true ?
                 <div>
                     <img alt={this.state.selectPollChoices[0].id} src={this.state.selectPollChoices[0].img_url} width="250" height="200"/>
-                    {this.state.selectPollChoices[0] !== null ? <button name="1" onClick={this.voteClickHandler}>Vote</button> : null}
+                    {this.state.selectPollChoices[0] !== null ? <button disabled={false} name="1" onClick={this.voteClickHandler}>Vote</button> : null}
                     <img alt={this.state.selectPollChoices[1].id} src={this.state.selectPollChoices[1].img_url} width="250" height="200"/>
-                    {this.state.selectPollChoices[1] !== null ? <button name="2" onClick={this.voteClickHandler}>Vote</button> : null}
+                    {this.state.selectPollChoices[1] !== null ? <button disabled={false} name="2" onClick={this.voteClickHandler}>Vote</button> : null}
                 </div>
                 :
                 null

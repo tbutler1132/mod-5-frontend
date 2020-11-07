@@ -37,7 +37,6 @@ class LeaderBoardOne extends React.Component{
     }
 
     render(){
-        console.log(this.props.imageDataFlow)
         return(
             <div>
             <h3>Artwork Leaderboard</h3>
