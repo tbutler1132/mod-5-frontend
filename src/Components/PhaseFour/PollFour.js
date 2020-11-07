@@ -1,16 +1,19 @@
 import React from 'react'
-import LeaderBoardTwo from './LeaderBoardTwo'
+import LeaderBoardFour from './LeaderBoardFour'
+// import LeaderBoardFour from './LeaderBoardFour'
 
 
-class PollTwo extends React.Component{
+
+class PollFour extends React.Component{
+    
 
     state = {
 
-        beatLeaderboard: this.props.createBeatLeaderBoard,
+        mixLeaderboard: this.props.createMixLeaderBoard,
         
         
         
-        pollResults: this.props.pollResults,
+       
         
         currentPollId: "",
         
@@ -53,7 +56,7 @@ class PollTwo extends React.Component{
         const newResult = {
             win: true,
             winnable_id: optionId,
-            winnable_type: "Beat",
+            winnable_type: "Mix",
             poll_id: this.state.currentPollId, 
         }
         const options = {
@@ -67,17 +70,17 @@ class PollTwo extends React.Component{
         fetch("http://localhost:3000/results", options)
         .then(r => r.json())
         .then(resultObj => {
-            const beatToBeUpdated = this.state.beatLeaderboard.find(beat => beat.beat.id === resultObj.winnable.id)
-            const newEl = {beat: beatToBeUpdated.beat, wins: beatToBeUpdated.wins + 1}
-            const beatToBeUpdatedIndex = this.state.beatLeaderboard.indexOf(beatToBeUpdated)
-            let newArray = [...this.state.beatLeaderboard]
-            newArray.splice(beatToBeUpdatedIndex, 1, newEl)
+            const mixToBeUpdated = this.state.mixLeaderboard.find(mix => mix.mix.id === resultObj.winnable.id)
+            const newEl = {mix: mixToBeUpdated.mix, wins: mixToBeUpdated.wins + 1}
+            const mixToBeUpdatedIndex = this.state.mixLeaderboard.indexOf(mixToBeUpdated)
+            let newArray = [...this.state.mixLeaderboard]
+            newArray.splice(mixToBeUpdatedIndex, 1, newEl)
             console.log(newArray)
 
             const sortedByWins = newArray.sort(function (l, r) {
                 return r.wins - l.wins;
             });
-            this.setState({beatLeaderboard: sortedByWins})
+            this.setState({mixLeaderboard: sortedByWins})
         })
 
         this.setState({clicked: false})
@@ -85,24 +88,23 @@ class PollTwo extends React.Component{
 
 
     render(){
-        console.log(this.props.beatLeaderboard)
         return(
             <div>
-                <button onClick={this.pollClickHandler}>Click to Create Poll!</button>
-                {this.state.clicked === true && this.state.selectPollChoices.length > 0 ?
-                <div>
-                    <p> alt={this.state.selectPollChoices[0].id} </p>
-                    {this.state.selectPollChoices[0] !== null ? <button disabled={false} name="1" onClick={this.voteClickHandler}>Vote</button> : null}
-                    <p> alt={this.state.selectPollChoices[1].id} </p>
-                    {this.state.selectPollChoices[1] !== null ? <button disabled={false} name="2" onClick={this.voteClickHandler}>Vote</button> : null}
-                </div>
-                :
-                null
-                }
-                <LeaderBoardTwo beatDataFlow={this.props.beatDataFlow} songObj={this.props.songObj} beatLeaderboard={this.state.beatLeaderboard}/>
+            <button onClick={this.pollClickHandler}>Click to Create Poll!</button>
+            {this.state.clicked === true && this.state.selectPollChoices.length > 0 ?
+            <div>
+                <p> alt={this.state.selectPollChoices[0].id} </p>
+                {this.state.selectPollChoices[0] !== null ? <button disabled={false} name="1" onClick={this.voteClickHandler}>Vote</button> : null}
+                <p> alt={this.state.selectPollChoices[1].id} </p>
+                {this.state.selectPollChoices[1] !== null ? <button disabled={false} name="2" onClick={this.voteClickHandler}>Vote</button> : null}
             </div>
+            :
+            null
+        }
+            <LeaderBoardFour mixDataFlow={this.props.mixDataFlow} songObj={this.props.songObj} mixLeaderboard={this.state.mixLeaderboard}/>
+        </div>
         )
     }
 }
 
-export default PollTwo
+export default PollFour

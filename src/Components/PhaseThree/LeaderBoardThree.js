@@ -1,6 +1,7 @@
 import React from 'react'
 
-class LeaderBoardTwo extends React.Component{
+
+class LeaderBoardThree extends React.Component{
 
 
     incrementPhase = () => {
@@ -12,10 +13,10 @@ class LeaderBoardTwo extends React.Component{
             },
             body: JSON.stringify({ selected: true })
           }
-        fetch(`http://localhost:3000/beats/${this.props.beatLeaderboard[0].beat.id}`, selectOptions)
+        fetch(`http://localhost:3000/vocals/${this.props.vocalLeaderboard[0].vocal.id}`, selectOptions)
         .then(r => r.json())
-        .then(beatObj => {
-          console.log(beatObj)
+        .then(vocalObj => {
+          console.log(vocalObj)
             const phaseOptions = {
                 method: "PATCH",
                 headers: {
@@ -27,7 +28,7 @@ class LeaderBoardTwo extends React.Component{
             fetch(`http://localhost:3000/songs/${this.props.songObj.id}`, phaseOptions)
             .then(r => r.json())
             .then(songObj => {
-                this.props.beatDataFlow(beatObj, songObj)
+                this.props.vocalDataFlow(vocalObj, songObj)
             })
         })
 
@@ -35,17 +36,17 @@ class LeaderBoardTwo extends React.Component{
     }
 
     render(){
-        console.log(this.props.beatDataFlow)
+        console.log(this.props.vocalLeaderboard)
         return(
-            this.props.beatLeaderboard !== undefined ?
+            this.props.vocalLeaderboard !== undefined ?
             <div>
-                <h3>Beat Leaderboard</h3>
-                    <p>1. {this.props.beatLeaderboard[0].beat.key_sig}</p> 
-                    <p>{this.props.beatLeaderboard[0].wins}</p> 
-                    <p>2. {this.props.beatLeaderboard[1].beat.key_sig} </p>
-                    <p>{this.props.beatLeaderboard[1].wins}</p>
-                    <p>3. {this.props.beatLeaderboard[2].beat.key_sig} </p> 
-                    <p>{this.props.beatLeaderboard[2].wins}</p>
+                <h3>Vocal Leaderboard</h3>
+                    <p>1. {this.props.vocalLeaderboard[0].vocal.id}</p> 
+                    <p>{this.props.vocalLeaderboard[0].wins}</p> 
+                    <p>2. {this.props.vocalLeaderboard[1].vocal.id} </p>
+                    <p>{this.props.vocalLeaderboard[1].wins}</p>
+                    {/* <p>3. {this.props.vocalLeaderboard[2].vocal.id} </p> 
+                    <p>{this.props.vocalLeaderboard[2].wins}</p> */}
                     <button onClick={this.incrementPhase}>Initiate Next Phase</button>
                     {/* <PhaseTwo /> */}
              </div>
@@ -56,4 +57,4 @@ class LeaderBoardTwo extends React.Component{
     }
 }
 
-export default LeaderBoardTwo
+export default LeaderBoardThree

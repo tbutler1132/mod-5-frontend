@@ -6,8 +6,7 @@ import SubmitFormTwo from './PhaseTwo/SubmitFormTwo'
 
 class PhaseTwo extends React.Component {
 
- 
-    
+
     selectPollChoices = () => {
 
         // return this.state.imagesArray[Math.floor(Math.random()*this.state.imagesArray.length)];
@@ -19,6 +18,8 @@ class PhaseTwo extends React.Component {
         return choices
 
     }
+
+ 
     
     createBeatLeaderBoard = () => {
         if (this.props.beatsArray.length > 0){
@@ -43,8 +44,7 @@ class PhaseTwo extends React.Component {
     
     
     render(){
-        console.log(this.createBeatLeaderBoard())
-        console.log(this.props.beatsArray)
+
         return(
             <div>
                 <SubmitFormTwo 

@@ -38,6 +38,7 @@ class LeaderBoardOne extends React.Component{
 
     render(){
         return(
+          this.props.imageLeaderboard !== undefined ?
             <div>
             <h3>Artwork Leaderboard</h3>
                 <p>1. <img alt="" src={this.props.imageLeaderboard[0].image.img_url} width="125" height="100"/></p> 
@@ -49,6 +50,8 @@ class LeaderBoardOne extends React.Component{
                 <button onClick={this.incrementPhase}>Initiate Next Phase</button>
                 {/* <PhaseTwo /> */}
             </div>
+                :
+                <p>Loading</p>
         )
     }
 }

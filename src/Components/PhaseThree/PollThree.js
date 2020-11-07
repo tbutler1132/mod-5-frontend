@@ -1,15 +1,18 @@
 import React from 'react'
-import LeaderBoardOne from './LeaderBoardOne'
+import LeaderBoardThree from './LeaderBoardThree'
+// import LeaderBoardTwo from './LeaderBoardTwo'
 
-class PollOne extends React.Component{
+
+class PollThree extends React.Component{
+    
 
     state = {
 
-        imageLeaderboard: this.props.createImageLeaderBoard,
+        vocalLeaderboard: this.props.createVocalLeaderBoard,
         
         
         
-        pollResults: this.props.pollResults,
+       
         
         currentPollId: "",
         
@@ -19,13 +22,6 @@ class PollOne extends React.Component{
 
         selectPollChoices: this.props.selectPollChoices()
     }
-
-    // filterResults = () => {
-    //     const winners = this.state.pollResults.filter (result => result.win === true)
-    //     return winners.filter (winner => winner.winnable.song.id === this.props.songObj.id)
-    // }
-
-
 
     pollClickHandler = () => {
         this.setState({buttonDisable: true})
@@ -45,14 +41,13 @@ class PollOne extends React.Component{
         fetch("http://localhost:3000/polls", options)
         .then(r => r.json())
         .then(pollObj => {
+            console.log(pollObj)
             this.setState({currentPollId: pollObj.id})
         })
 
         this.setState({clicked: true})
 
     }
-    
-  
 
     voteClickHandler = (e) => {
         this.setState({buttonDisable: true})
@@ -60,7 +55,7 @@ class PollOne extends React.Component{
         const newResult = {
             win: true,
             winnable_id: optionId,
-            winnable_type: "RefImg",
+            winnable_type: "Vocal",
             poll_id: this.state.currentPollId, 
         }
         const options = {
@@ -74,24 +69,22 @@ class PollOne extends React.Component{
         fetch("http://localhost:3000/results", options)
         .then(r => r.json())
         .then(resultObj => {
-            console.log(resultObj.winnable)
-            const imageToBeUpdated = this.state.imageLeaderboard.find(image => image.image.id === resultObj.winnable.id)
-            console.log(imageToBeUpdated)
-            const newEl = {image: imageToBeUpdated.image, wins: imageToBeUpdated.wins + 1}
-            console.log(newEl)
-            const imageToBeUpdatedIndex = this.state.imageLeaderboard.indexOf(imageToBeUpdated)
-            let newArray = [...this.state.imageLeaderboard]
-            newArray.splice(imageToBeUpdatedIndex, 1, newEl)
+            const vocalToBeUpdated = this.state.vocalLeaderboard.find(vocal => vocal.vocal.id === resultObj.winnable.id)
+            const newEl = {vocal: vocalToBeUpdated.vocal, wins: vocalToBeUpdated.wins + 1}
+            const vocalToBeUpdatedIndex = this.state.vocalLeaderboard.indexOf(vocalToBeUpdated)
+            let newArray = [...this.state.vocalLeaderboard]
+            newArray.splice(vocalToBeUpdatedIndex, 1, newEl)
             console.log(newArray)
 
             const sortedByWins = newArray.sort(function (l, r) {
                 return r.wins - l.wins;
             });
-            this.setState({imageLeaderboard: sortedByWins})
+            this.setState({vocalLeaderboard: sortedByWins})
         })
 
         this.setState({clicked: false})
     }
+
 
     render(){
         return(
@@ -99,18 +92,19 @@ class PollOne extends React.Component{
                 <button onClick={this.pollClickHandler}>Click to Create Poll!</button>
                 {this.state.clicked === true && this.state.selectPollChoices.length > 0 ?
                 <div>
-                    <img alt={this.state.selectPollChoices[0].id} src={this.state.selectPollChoices[0].img_url} width="250" height="200"/>
+                    <p> alt={this.state.selectPollChoices[0].id} </p>
                     {this.state.selectPollChoices[0] !== null ? <button disabled={false} name="1" onClick={this.voteClickHandler}>Vote</button> : null}
-                    <img alt={this.state.selectPollChoices[1].id} src={this.state.selectPollChoices[1].img_url} width="250" height="200"/>
+                    <p> alt={this.state.selectPollChoices[1].id} </p>
                     {this.state.selectPollChoices[1] !== null ? <button disabled={false} name="2" onClick={this.voteClickHandler}>Vote</button> : null}
                 </div>
                 :
                 null
-                }
-                <LeaderBoardOne songObj={this.props.songObj} imageLeaderboard={this.state.imageLeaderboard} imageDataFlow={this.props.imageDataFlow}/>
+            }
+                <LeaderBoardThree vocalDataFlow={this.props.vocalDataFlow} songObj={this.props.songObj} vocalLeaderboard={this.state.vocalLeaderboard}/>
+                {/* <LeaderBoardTwo beatDataFlow={this.props.beatDataFlow} songObj={this.props.songObj} beatLeaderboard={this.state.beatLeaderboard} imageDataFlow={this.props.imageDataFlow}/> */}
             </div>
         )
     }
 }
 
-export default PollOne
+export default PollThree

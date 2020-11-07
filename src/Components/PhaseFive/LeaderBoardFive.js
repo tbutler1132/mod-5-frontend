@@ -1,6 +1,7 @@
 import React from 'react'
 
-class LeaderBoardTwo extends React.Component{
+
+class LeaderBoardFive extends React.Component{
 
 
     incrementPhase = () => {
@@ -12,10 +13,10 @@ class LeaderBoardTwo extends React.Component{
             },
             body: JSON.stringify({ selected: true })
           }
-        fetch(`http://localhost:3000/beats/${this.props.beatLeaderboard[0].beat.id}`, selectOptions)
+        fetch(`http://localhost:3000/masters/${this.props.masterLeaderboard[0].master.id}`, selectOptions)
         .then(r => r.json())
-        .then(beatObj => {
-          console.log(beatObj)
+        .then(masterObj => {
+          console.log(masterObj)
             const phaseOptions = {
                 method: "PATCH",
                 headers: {
@@ -27,7 +28,7 @@ class LeaderBoardTwo extends React.Component{
             fetch(`http://localhost:3000/songs/${this.props.songObj.id}`, phaseOptions)
             .then(r => r.json())
             .then(songObj => {
-                this.props.beatDataFlow(beatObj, songObj)
+                this.props.masterDataFlow(masterObj, songObj)
             })
         })
 
@@ -35,17 +36,16 @@ class LeaderBoardTwo extends React.Component{
     }
 
     render(){
-        console.log(this.props.beatDataFlow)
         return(
-            this.props.beatLeaderboard !== undefined ?
+            this.props.masterLeaderboard !== undefined ?
             <div>
-                <h3>Beat Leaderboard</h3>
-                    <p>1. {this.props.beatLeaderboard[0].beat.key_sig}</p> 
-                    <p>{this.props.beatLeaderboard[0].wins}</p> 
-                    <p>2. {this.props.beatLeaderboard[1].beat.key_sig} </p>
-                    <p>{this.props.beatLeaderboard[1].wins}</p>
-                    <p>3. {this.props.beatLeaderboard[2].beat.key_sig} </p> 
-                    <p>{this.props.beatLeaderboard[2].wins}</p>
+                <h3>master Leaderboard</h3>
+                    <p>1. {this.props.masterLeaderboard[0].master.id}</p> 
+                    <p>{this.props.masterLeaderboard[0].wins}</p> 
+                    <p>2. {this.props.masterLeaderboard[1].master.id} </p>
+                    <p>{this.props.masterLeaderboard[1].wins}</p>
+                    {/* <p>3. {this.props.masterLeaderboard[2].master.id} </p> 
+                    <p>{this.props.masterLeaderboard[2].wins}</p> */}
                     <button onClick={this.incrementPhase}>Initiate Next Phase</button>
                     {/* <PhaseTwo /> */}
              </div>
@@ -56,4 +56,4 @@ class LeaderBoardTwo extends React.Component{
     }
 }
 
-export default LeaderBoardTwo
+export default LeaderBoardFive

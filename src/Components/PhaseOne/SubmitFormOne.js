@@ -33,7 +33,7 @@ class SubmitFormOne extends React.Component {
             title: this.state.imageTitle,
             img_url: this.state.imageUrl,
             selected: false,
-            user_id: 112,
+            user_id: 121,
             song_id: this.props.songObj.id
         }
         const options = {

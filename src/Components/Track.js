@@ -1,6 +1,9 @@
 import React from 'react'
 import PhaseOne from './PhaseOne'
 import PhaseTwo from './PhaseTwo'
+import PhaseThree from './PhaseThree'
+import PhaseFour from './PhaseFour'
+import PhaseFive from './PhaseFive'
 // import { Route, Switch, NavLink } from 'react-router-dom'
 // import Poll from './Poll'
 // import SubmitForm from './SubmitForm'
@@ -21,10 +24,15 @@ class Track extends React.Component {
         
         imagesArray: [],
         beatsArray: [],
+        vocalsArray: [],
+        mixesArray: [],
         mastersArray: [],
 
         selectedImage: {},
-        selectedBeat: {}
+        selectedBeat: {},
+        selectedVocal: {},
+        selectedMix: {},
+        selectedMaster: {}
     }
 
     
@@ -46,6 +54,30 @@ class Track extends React.Component {
                 const filtered = beats.filter(beat => beat.song.id === this.state.songObj.id)
                 const selected = filtered.filter(beat => beat.selected === true)[0]
                 this.setState({beatsArray: filtered, selectedBeat: selected})
+            })
+            
+            fetch("http://localhost:3000/vocals")
+            .then(r => r.json())
+            .then(vocals =>{ 
+                const filtered = vocals.filter(vocal => vocal.beat.song.id === this.state.songObj.id)
+                const selected = filtered.filter(vocal => vocal.selected === true)[0]
+                this.setState({vocalsArray: filtered, selectedVocal: selected})
+            }) 
+
+            fetch("http://localhost:3000/mixes")
+            .then(r => r.json())
+            .then(mixes =>{ 
+                const filtered = mixes.filter(mix => mix.vocal.beat.song_id === this.state.songObj.id)
+                const selected = filtered.filter(mix => mix.selected === true)[0]
+                this.setState({mixesArray: filtered, selectedMix: selected})
+            })
+            
+            fetch("http://localhost:3000/masters")
+            .then(r => r.json())
+            .then(masters =>{ 
+                const filtered = masters.filter(master => master.beat.beat.song_id === this.state.songObj.id)
+                const selected = filtered.filter(master => master.selected === true)[0]
+                this.setState({mastersArray: filtered, selectedMaster: selected})
             }) 
         
 
@@ -88,6 +120,33 @@ class Track extends React.Component {
 
     beatDataFlow = (beatObj, songObj) => {
         this.setState({selectedBeat: beatObj})
+        this.setState({phase: songObj.phase})
+    }
+
+    vocalsArrayDataFlow = (newVocalsArray) => {
+        this.setState({vocalsArray: newVocalsArray})
+    }
+
+    vocalDataFlow = (vocalObj, songObj) => {
+        this.setState({selectedVocal: vocalObj})
+        this.setState({phase: songObj.phase})
+    }
+
+    mixesArrayDataFlow = (newMixesArray) => {
+        this.setState({mixesArray: newMixesArray})
+    }
+
+    mixDataFlow = (mixObj, songObj) => {
+        this.setState({selectedMix: mixObj})
+        this.setState({phase: songObj.phase})
+    }
+
+    mastersArrayDataFlow = (newMastersArray) => {
+        this.setState({mastersArray: newMastersArray})
+    }
+
+    masterDataFlow = (masterObj, songObj) => {
+        this.setState({selectedMaster: masterObj})
         this.setState({phase: songObj.phase})
     }
 
@@ -279,7 +338,46 @@ class Track extends React.Component {
                 <>
                 <img alt="" src={this.state.selectedImage.img_url} width="125" height="100"/>
                 <p>Beat winner: {this.state.selectedBeat.key_sig}</p>
+                <PhaseThree
+                selectedBeat={this.state.selectedBeat} 
+                songObj={this.state.songObj}
+                vocalsArray={this.state.vocalsArray}
+                vocalsArrayDataFlow={this.vocalsArrayDataFlow}
+                vocalDataFlow={this.vocalDataFlow}
+                phase={this.state.phase}
+                pollId={this.state.currentPollId}
+                newPoll={this.pollClickHandler}
+                pollId={this.state.currentPollId}
+                />
                 </>
+                :
+                this.state.phase === 4 ?
+                <>
+                <PhaseFour
+                selectedVocal={this.state.selectedVocal} 
+                songObj={this.state.songObj}
+                mixesArray={this.state.mixesArray}
+                phase={this.state.phase}
+                mixesArrayDataFlow={this.mixesArrayDataFlow}
+                mixDataFlow={this.mixDataFlow}
+                pollId={this.state.currentPollId}
+                newPoll={this.pollClickHandler}
+                pollId={this.state.currentPollId}
+                />
+                </>
+                :
+                this.state.phase === 5 ?
+                <PhaseFive 
+                selectedMix={this.state.selectedMix} 
+                songObj={this.state.songObj}
+                mastersArray={this.state.mastersArray}
+                phase={this.state.phase}
+                mastersArrayDataFlow={this.mastersArrayDataFlow}
+                masterDataFlow={this.masterDataFlow}
+                pollId={this.state.currentPollId}
+                newPoll={this.pollClickHandler}
+                pollId={this.state.currentPollId}
+                />
                 :
                 null
 

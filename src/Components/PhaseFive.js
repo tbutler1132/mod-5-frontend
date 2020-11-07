@@ -1,48 +1,54 @@
 import React from 'react'
+import SubmitFormFive from './PhaseFive/SubmitFormFive';
+import PollFive from './PhaseFive/PollFive';
 
 class PhaseFive extends React.Component {
 
-    state = {
-        mastersArray: [],
-        leaderboard: []
+    selectPollChoices = () => {
+        
+        const shuffled = this.props.mastersArray.sort(() => 0.5 - Math.random());
+        let choices = shuffled.slice(0, 2);
+        const pollOptions = choices.map(choice => choice)
+        return choices
+
     }
 
-    componentDidMount = () => {
-        fetch("http://localhost:3000/masters")
-        .then(r => r.json())
-        .then(masters =>{ 
-            this.setState({mastersArray: masters})
-        })
-    }
-
-    filterMasters = () => {
-        if (this.props.songObj.masters.length > 0){
-            const winner = this.props.songObj.masters.filter(master => master.selected === true)
-            return winner[0].id
-        } 
+    createMasterLeaderBoard = () => {
+        if (this.props.mastersArray.length > 0){
+        const wins = this.props.mastersArray.map(master => master.results.filter(result => result.win === true).length)
+        const mastersWithWins = []
+        this.props.mastersArray.forEach(function(v,i){
+            const obj = {};
+            obj.master = v;
+            obj.wins = wins[i];
+            mastersWithWins.push(obj);
+        });
+        const sortedByWins = mastersWithWins.sort(function (l, r) {
+            return r.wins - l.wins;
+        });
+        
+        return sortedByWins
+        }
     }
 
 
 
     render(){
-        if (this.props.phase > 5){
+        console.log(this.createMasterLeaderBoard())
             return(
-                <div>
-                    { this.props.songObj.masters.length  > 0 ? <p>Master Id: {this.props.winningMaster.id}</p> : null}
-                </div>
+                <>
+                <SubmitFormFive 
+                songObj={this.props.songObj}
+                selectedMix={this.props.selectedMix}
+                newPoll={this.props.newPoll} 
+                pollId={this.props.pollId} 
+                pollResults={this.props.pollResults}
+                mastersArray={this.props.mastersArray}
+                mastersArrayDataFlow={this.props.mastersArrayDataFlow}
+                />
+                <PollFive masterDataFlow={this.props.masterDataFlow} mastersArray={this.props.mastersArray} selectPollChoices={this.selectPollChoices} createMasterLeaderBoard={this.createMasterLeaderBoard()} songObj={this.props.songObj} pollId={this.props.pollId}/>
+                </>
             )
-        } else if (this.props.phase === 5){
-            return (
-                <div>
-                    <h3>Masters Leaderboard</h3>
-                    <p>1. {this.props.mastersLeaderBoard[0] !== undefined ? this.props.mastersLeaderBoard[0].master.id : null}</p>
-                    <p>2. {this.props.mastersLeaderBoard[1] !== undefined ? this.props.mastersLeaderBoard[1].master.id : null}</p>
-                    <p>3. {this.props.mastersLeaderBoard[2] !== undefined ? this.props.mastersLeaderBoard[2].master.id : null}</p>
-                </div>
-            )  
-        } else {
-            return(null)
-        }
     }
 }
 

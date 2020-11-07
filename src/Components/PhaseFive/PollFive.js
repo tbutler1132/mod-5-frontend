@@ -1,16 +1,19 @@
 import React from 'react'
-import LeaderBoardTwo from './LeaderBoardTwo'
+import LeaderBoardFive from './LeaderBoardFive'
 
 
-class PollTwo extends React.Component{
+
+
+class PollFive extends React.Component{
+    
 
     state = {
 
-        beatLeaderboard: this.props.createBeatLeaderBoard,
+        masterLeaderboard: this.props.createMasterLeaderBoard,
         
         
         
-        pollResults: this.props.pollResults,
+       
         
         currentPollId: "",
         
@@ -53,7 +56,7 @@ class PollTwo extends React.Component{
         const newResult = {
             win: true,
             winnable_id: optionId,
-            winnable_type: "Beat",
+            winnable_type: "Master",
             poll_id: this.state.currentPollId, 
         }
         const options = {
@@ -67,17 +70,17 @@ class PollTwo extends React.Component{
         fetch("http://localhost:3000/results", options)
         .then(r => r.json())
         .then(resultObj => {
-            const beatToBeUpdated = this.state.beatLeaderboard.find(beat => beat.beat.id === resultObj.winnable.id)
-            const newEl = {beat: beatToBeUpdated.beat, wins: beatToBeUpdated.wins + 1}
-            const beatToBeUpdatedIndex = this.state.beatLeaderboard.indexOf(beatToBeUpdated)
-            let newArray = [...this.state.beatLeaderboard]
-            newArray.splice(beatToBeUpdatedIndex, 1, newEl)
+            const masterToBeUpdated = this.state.masterLeaderboard.find(master => master.master.id === resultObj.winnable.id)
+            const newEl = {master: masterToBeUpdated.master, wins: masterToBeUpdated.wins + 1}
+            const masterToBeUpdatedIndex = this.state.masterLeaderboard.indexOf(masterToBeUpdated)
+            let newArray = [...this.state.masterLeaderboard]
+            newArray.splice(masterToBeUpdatedIndex, 1, newEl)
             console.log(newArray)
 
             const sortedByWins = newArray.sort(function (l, r) {
                 return r.wins - l.wins;
             });
-            this.setState({beatLeaderboard: sortedByWins})
+            this.setState({masterLeaderboard: sortedByWins})
         })
 
         this.setState({clicked: false})
@@ -85,24 +88,24 @@ class PollTwo extends React.Component{
 
 
     render(){
-        console.log(this.props.beatLeaderboard)
+        console.log(this.state.masterLeaderboard)
         return(
             <div>
-                <button onClick={this.pollClickHandler}>Click to Create Poll!</button>
-                {this.state.clicked === true && this.state.selectPollChoices.length > 0 ?
-                <div>
-                    <p> alt={this.state.selectPollChoices[0].id} </p>
-                    {this.state.selectPollChoices[0] !== null ? <button disabled={false} name="1" onClick={this.voteClickHandler}>Vote</button> : null}
-                    <p> alt={this.state.selectPollChoices[1].id} </p>
-                    {this.state.selectPollChoices[1] !== null ? <button disabled={false} name="2" onClick={this.voteClickHandler}>Vote</button> : null}
-                </div>
-                :
-                null
-                }
-                <LeaderBoardTwo beatDataFlow={this.props.beatDataFlow} songObj={this.props.songObj} beatLeaderboard={this.state.beatLeaderboard}/>
+            <button onClick={this.pollClickHandler}>Click to Create Poll!</button>
+            {this.state.clicked === true && this.state.selectPollChoices.length > 0 ?
+            <div>
+                <p> alt={this.state.selectPollChoices[0].id} </p>
+                {this.state.selectPollChoices[0] !== null ? <button disabled={false} name="1" onClick={this.voteClickHandler}>Vote</button> : null}
+                <p> alt={this.state.selectPollChoices[1].id} </p>
+                {this.state.selectPollChoices[1] !== null ? <button disabled={false} name="2" onClick={this.voteClickHandler}>Vote</button> : null}
             </div>
+            :
+            null
+        }
+            <LeaderBoardFive masterDataFlow={this.props.masterDataFlow} songObj={this.props.songObj} masterLeaderboard={this.state.masterLeaderboard}/> 
+        </div>
         )
     }
 }
 
-export default PollTwo
+export default PollFive

@@ -13,14 +13,6 @@ class SubmitFormTwo extends React.Component{
 
     }
 
-    selectPollChoices = () => {
-                
-        const shuffled = this.state.beatsArray.sort(() => 0.5 - Math.random());
-        let choices = shuffled.slice(0, 2);
-        
-        return choices.map(choice => choice)
-
-    }  
 
     changeHandler = (e) => {
         this.setState({ [e.target.name]: e.target.value })
@@ -32,7 +24,7 @@ class SubmitFormTwo extends React.Component{
             bpm: this.state.beatBpm,
             key_sig: this.state.beatKeySig,
             selected: false,
-            user_id: 112,
+            user_id: 121,
             song_id: this.props.songObj.id
         }
         const options = {
