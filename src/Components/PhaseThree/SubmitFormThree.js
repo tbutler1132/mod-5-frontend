@@ -19,7 +19,7 @@ class SubmitFormThree extends React.Component{
         e.preventDefault()
         const newVocal = {
             selected: false,
-            user_id: 121,
+            user_id: 130,
             song_id: this.props.selectedBeat.id
         }
         const options = {

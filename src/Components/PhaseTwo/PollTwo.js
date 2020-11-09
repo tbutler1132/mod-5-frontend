@@ -26,7 +26,7 @@ class PollTwo extends React.Component{
         this.setState({selectPollChoices: this.props.selectPollChoices()})
         const newPoll = {
             phase: this.props.songObj.phase,
-            user_id: 121
+            user_id: 130
         }
         const options = {
             method: "POST",
@@ -85,7 +85,6 @@ class PollTwo extends React.Component{
 
 
     render(){
-        console.log(this.props.beatLeaderboard)
         return(
             <div>
                 <button onClick={this.pollClickHandler}>Click to Create Poll!</button>

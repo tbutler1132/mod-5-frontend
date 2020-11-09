@@ -35,7 +35,6 @@ class LeaderBoardTwo extends React.Component{
     }
 
     render(){
-        console.log(this.props.beatDataFlow)
         return(
             this.props.beatLeaderboard !== undefined ?
             <div>

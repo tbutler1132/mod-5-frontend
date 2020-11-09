@@ -18,7 +18,7 @@ class SubmitFormFive extends React.Component{
         e.preventDefault()
         const newMaster = {
             selected: false,
-            user_id: 121,
+            user_id: 130,
             mix_id: this.props.selectedMix.id
         }
         const options = {

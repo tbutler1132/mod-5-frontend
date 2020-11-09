@@ -24,7 +24,7 @@ class SubmitFormTwo extends React.Component{
             bpm: this.state.beatBpm,
             key_sig: this.state.beatKeySig,
             selected: false,
-            user_id: 121,
+            user_id: 130,
             song_id: this.props.songObj.id
         }
         const options = {

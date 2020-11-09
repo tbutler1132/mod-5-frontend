@@ -28,7 +28,7 @@ class PollThree extends React.Component{
         this.setState({selectPollChoices: this.props.selectPollChoices()})
         const newPoll = {
             phase: this.props.songObj.phase,
-            user_id: 121
+            user_id: 130
         }
         const options = {
             method: "POST",

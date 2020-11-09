@@ -37,8 +37,9 @@ class LeaderBoardOne extends React.Component{
     }
 
     render(){
+      console.log(this.props.imageLeaderboard)
         return(
-          this.props.imageLeaderboard !== undefined ?
+          this.props.imageLeaderboard.length !== 0 ?
             <div>
             <h3>Artwork Leaderboard</h3>
                 <p>1. <img alt="" src={this.props.imageLeaderboard[0].image.img_url} width="125" height="100"/></p> 

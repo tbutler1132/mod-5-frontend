@@ -36,7 +36,6 @@ class LeaderBoardThree extends React.Component{
     }
 
     render(){
-        console.log(this.props.vocalLeaderboard)
         return(
             this.props.vocalLeaderboard !== undefined ?
             <div>

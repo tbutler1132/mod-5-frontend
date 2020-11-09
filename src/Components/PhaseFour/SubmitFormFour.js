@@ -18,7 +18,7 @@ class SubmitFormFour extends React.Component{
         e.preventDefault()
         const newMix = {
             selected: false,
-            user_id: 121,
+            user_id: 130,
             vocal_id: this.props.selectedVocal.id
         }
         const options = {

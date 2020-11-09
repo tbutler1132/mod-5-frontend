@@ -34,7 +34,6 @@ class PhaseFive extends React.Component {
 
 
     render(){
-        console.log(this.createMasterLeaderBoard())
             return(
                 <>
                 <SubmitFormFive 

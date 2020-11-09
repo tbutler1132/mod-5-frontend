@@ -1,6 +1,7 @@
 import React from 'react'
 import Track from '../Components/Track'
 import {Route, Switch} from 'react-router-dom'
+import Upload from '../Components/Upload'
 
 class Album extends React.Component {
 
@@ -21,7 +22,7 @@ class Album extends React.Component {
 
 
     renderTracks = () => {
-        return this.state.trackArray.map(songObj => <Track key={songObj.id} songObj={songObj} ear="ear" pollResults={this.state.pollResults}/>)
+        return this.state.trackArray.map(songObj => <Track key={songObj.id} songObj={songObj} pollResults={this.state.pollResults}/>)
     }
 
     render(){
@@ -46,7 +47,9 @@ class Album extends React.Component {
                         <Route path="/tracks" render={() => {
                             return( 
                                 <div>
-                                    {this.renderTracks()} 
+                                    <h1>Here are the songs you and your collaboraters are working on!</h1>
+                                    {this.renderTracks()}
+                  
                                 </div>
                             )
                             }} />
