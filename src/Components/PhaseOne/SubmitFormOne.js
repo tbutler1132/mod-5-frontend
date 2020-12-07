@@ -8,7 +8,13 @@ class SubmitFormOne extends React.Component {
         imageTitle: "",
         imageUrl: "",
 
+        clicked: false,
+
         imagesArray: this.props.imagesArray,
+    }
+
+    submitFormFourClickHandler = () => {
+        this.state.clicked === false ? this.setState({clicked: true}) : this.setState({clicked: false})
     }
 
     selectPollChoices = () => {
@@ -33,7 +39,7 @@ class SubmitFormOne extends React.Component {
             title: this.state.imageTitle,
             img_url: this.state.imageUrl,
             selected: false,
-            user_id: 130,
+            user_id: 202,
             song_id: this.props.songObj.id
         }
         const options = {
@@ -56,12 +62,16 @@ class SubmitFormOne extends React.Component {
     render (){
         return(
             <>
+                {this.state.clicked === true ?
                 <form onSubmit={this.phaseOneSubmitHandler}>
                     <input type="text" name="imageTitle" value={this.state.imageTitle} placeholder="Title" onChange={this.changeHandler} disabled={this.state.disabled} />
                     <input type="text" name="imageUrl" value={this.state.imageUrl} placeholder="URL" onChange={this.changeHandler} disabled={this.state.disabled}/>
                     {/* <input type="text" name="beatUrl" value={this.state.beatUrl} onChange={this.changeHandler} /> */}
                     <button>Submit image</button>
                 </form>
+                            :
+                            null
+                            }
              </>
         )
         

@@ -1,5 +1,6 @@
 import React from 'react'
 import LeaderBoardOne from './LeaderBoardOne'
+import {Button} from 'react-bootstrap'
 
 class PollOne extends React.Component{
 
@@ -32,7 +33,7 @@ class PollOne extends React.Component{
         this.setState({selectPollChoices: this.props.selectPollChoices()})
         const newPoll = {
             phase: this.props.songObj.phase,
-            user_id: 130
+            user_id: 202
         }
         const options = {
             method: "POST",
@@ -95,19 +96,23 @@ class PollOne extends React.Component{
 
     render(){
         return(
-            <div>
-                <button onClick={this.pollClickHandler}>Click to Create Poll!</button>
+            <div className="poll">
+                <Button variant="dark" onClick={this.pollClickHandler}>Click to Create Poll!</Button>
                 {this.state.clicked === true && this.state.selectPollChoices.length > 0 ?
                 <div>
+                    <div className="poll-option">
                     <img alt={this.state.selectPollChoices[0].id} src={this.state.selectPollChoices[0].img_url} width="250" height="200"/>
-                    {this.state.selectPollChoices[0] !== null ? <button disabled={false} name="1" onClick={this.voteClickHandler}>Vote</button> : null}
+                    {this.state.selectPollChoices[0] !== null ? <Button variant="dark" disabled={false} name="1" onClick={this.voteClickHandler}>Vote</Button> : null}
+                    </div>
+                    <div className="poll-option">
                     <img alt={this.state.selectPollChoices[1].id} src={this.state.selectPollChoices[1].img_url} width="250" height="200"/>
-                    {this.state.selectPollChoices[1] !== null ? <button disabled={false} name="2" onClick={this.voteClickHandler}>Vote</button> : null}
+                    {this.state.selectPollChoices[1] !== null ? <Button variant="dark" disabled={false} name="2" onClick={this.voteClickHandler}>Vote</Button> : null}
+                    </div>
                 </div>
                 :
                 null
                 }
-                <LeaderBoardOne songObj={this.props.songObj} imageLeaderboard={this.state.imageLeaderboard} imageDataFlow={this.props.imageDataFlow}/>
+                <LeaderBoardOne phase={this.props.phase} songObj={this.props.songObj} imageLeaderboard={this.state.imageLeaderboard} imageDataFlow={this.props.imageDataFlow}/>
             </div>
         )
     }

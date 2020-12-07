@@ -1,6 +1,7 @@
 import React from 'react'
 import LeaderBoardFour from './LeaderBoardFour'
-// import LeaderBoardFour from './LeaderBoardFour'
+import ReactAudioPlayer from 'react-audio-player';
+import {Button} from 'react-bootstrap'
 
 
 
@@ -29,7 +30,7 @@ class PollFour extends React.Component{
         this.setState({selectPollChoices: this.props.selectPollChoices()})
         const newPoll = {
             phase: this.props.songObj.phase,
-            user_id: 130
+            user_id: 202
         }
         const options = {
             method: "POST",
@@ -89,14 +90,25 @@ class PollFour extends React.Component{
 
     render(){
         return(
-            <div>
-            <button onClick={this.pollClickHandler}>Click to Create Poll!</button>
+            <div className="poll">
+            <Button variant="dark" onClick={this.pollClickHandler}>Click to Create Poll!</Button>
             {this.state.clicked === true && this.state.selectPollChoices.length > 0 ?
             <div>
-                <p> alt={this.state.selectPollChoices[0].id} </p>
-                {this.state.selectPollChoices[0] !== null ? <button disabled={false} name="1" onClick={this.voteClickHandler}>Vote</button> : null}
-                <p> alt={this.state.selectPollChoices[1].id} </p>
-                {this.state.selectPollChoices[1] !== null ? <button disabled={false} name="2" onClick={this.voteClickHandler}>Vote</button> : null}
+                <div className="poll-option">
+                <ReactAudioPlayer
+                    src={`http://localhost:3000/${this.state.selectPollChoices[0].audio_data.url}`}
+                    controls
+                />
+                {this.state.selectPollChoices[0] !== null ? <Button variant="dark" disabled={false} name="1" onClick={this.voteClickHandler}>Vote</Button> : null}
+                </div>
+                <div className="poll-option">
+                <ReactAudioPlayer
+                    src={`http://localhost:3000/${this.state.selectPollChoices[1].audio_data.url}`}
+                    controls
+                />
+                {this.state.selectPollChoices[1] !== null ? <Button variant="dark" disabled={false} name="2" onClick={this.voteClickHandler}>Vote</Button> : null}
+                </div>
+                <hr></hr>
             </div>
             :
             null

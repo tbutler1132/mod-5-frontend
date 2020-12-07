@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import { withRouter, redirect } from 'react-router-dom'
+import { withRouter, redirect, Link } from 'react-router-dom'
 
 
 class Login extends Component{
@@ -27,11 +27,11 @@ class Login extends Component{
                         <input type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.changeHandler}/>
                         <input type='password' name="password" placeholder="Password" value={this.state.password} onChange={this.changeHandler} />
         
-                        <button variant="dark" id="login-submit" type="submit" value="Login">Login</button>
                 </form>
+                        <Link to='/user/43'>Login</Link>
             </div>
         )
     }
 }
 
-export default Login
+export default withRouter (Login)

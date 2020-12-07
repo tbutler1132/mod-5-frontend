@@ -1,4 +1,5 @@
 import React from 'react'
+import {Button} from 'react-bootstrap'
 
 
 class LeaderBoardOne extends React.Component{
@@ -40,19 +41,19 @@ class LeaderBoardOne extends React.Component{
       console.log(this.props.imageLeaderboard)
         return(
           this.props.imageLeaderboard.length !== 0 ?
-            <div>
+            <div className="leaderboard">
             <h3>Artwork Leaderboard</h3>
                 <p>1. <img alt="" src={this.props.imageLeaderboard[0].image.img_url} width="125" height="100"/></p> 
-                <p>{this.props.imageLeaderboard[0].wins}</p> 
+                <p>Votes: {this.props.imageLeaderboard[0].wins}</p> 
                 <p>2. <img alt="" src={this.props.imageLeaderboard[1].image.img_url} width="125" height="100"/></p>
-                <p>{this.props.imageLeaderboard[1].wins}</p>
+                <p>Votes: {this.props.imageLeaderboard[1].wins}</p>
                 <p>3. <img alt="" src={this.props.imageLeaderboard[2].image.img_url} width="125" height="100"/></p> 
-                <p>{this.props.imageLeaderboard[2].wins}</p>
-                <button onClick={this.incrementPhase}>Initiate Next Phase</button>
+                <p>Votes: {this.props.imageLeaderboard[2].wins}</p>
+                <Button variant="dark" onClick={this.incrementPhase}>Initiate Next Phase</Button>
                 {/* <PhaseTwo /> */}
             </div>
                 :
-                <p>Loading</p>
+                null
         )
     }
 }

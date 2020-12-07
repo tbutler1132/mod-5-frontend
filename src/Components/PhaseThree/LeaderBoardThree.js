@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactAudioPlayer from 'react-audio-player';
 
 
 class LeaderBoardThree extends React.Component{
@@ -36,13 +37,20 @@ class LeaderBoardThree extends React.Component{
     }
 
     render(){
+      console.log(this.props.vocalLeaderboard)
         return(
             this.props.vocalLeaderboard !== undefined ?
             <div>
                 <h3>Vocal Leaderboard</h3>
-                    <p>1. {this.props.vocalLeaderboard[0].vocal.id}</p> 
+                  <ReactAudioPlayer
+                  src={`http://localhost:3000/${this.props.vocalLeaderboard[0].vocal.audio_data.url}`}
+                  controls
+                  /> 
                     <p>{this.props.vocalLeaderboard[0].wins}</p> 
-                    <p>2. {this.props.vocalLeaderboard[1].vocal.id} </p>
+                    <ReactAudioPlayer
+                  src={`http://localhost:3000/${this.props.vocalLeaderboard[1].vocal.audio_data.url}`}
+                  controls
+                  /> 
                     <p>{this.props.vocalLeaderboard[1].wins}</p>
                     {/* <p>3. {this.props.vocalLeaderboard[2].vocal.id} </p> 
                     <p>{this.props.vocalLeaderboard[2].wins}</p> */}

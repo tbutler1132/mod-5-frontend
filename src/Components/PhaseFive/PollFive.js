@@ -1,5 +1,6 @@
 import React from 'react'
 import LeaderBoardFive from './LeaderBoardFive'
+import ReactAudioPlayer from 'react-audio-player';
 
 
 
@@ -29,7 +30,7 @@ class PollFive extends React.Component{
         this.setState({selectPollChoices: this.props.selectPollChoices()})
         const newPoll = {
             phase: this.props.songObj.phase,
-            user_id: 130
+            user_id: 202
         }
         const options = {
             method: "POST",
@@ -90,7 +91,7 @@ class PollFive extends React.Component{
     render(){
         console.log(this.state.masterLeaderboard)
         return(
-            <div>
+            <div className="poll">
             <button onClick={this.pollClickHandler}>Click to Create Poll!</button>
             {this.state.clicked === true && this.state.selectPollChoices.length > 0 ?
             <div>

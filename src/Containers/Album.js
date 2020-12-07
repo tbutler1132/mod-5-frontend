@@ -47,7 +47,8 @@ class Album extends React.Component {
                         <Route path="/tracks" render={() => {
                             return( 
                                 <div>
-                                    <h1>Here are the songs you and your collaboraters are working on!</h1>
+                                    <h2 className="album-header">Here are the tracks for your currently in progress album</h2>
+                                    <h3 className="album-header">Click on a track to vote on submissions, see the most popular ones, or initiate the next phase</h3>
                                     {this.renderTracks()}
                   
                                 </div>

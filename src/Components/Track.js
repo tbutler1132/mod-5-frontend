@@ -7,6 +7,7 @@ import PhaseFive from './PhaseFive'
 import {NavLink} from 'react-router-dom'
 import ReactPlayer from 'react-player'
 import Upload from './Upload'
+import {Container, Row, Col} from 'react-bootstrap'
 // import { Route, Switch, NavLink } from 'react-router-dom'
 // import Poll from './Poll'
 // import SubmitForm from './SubmitForm'
@@ -54,7 +55,7 @@ class Track extends React.Component {
             .then(images =>{ 
                 const filtered = images.filter(image => image.song.id === this.state.songObj.id)
                 const selected = filtered.filter(image => image.selected === true)[0]
-                console.log(filtered)
+   
                 this.setState({imagesArray: filtered, selectedImage: selected})
                 
             }) 
@@ -195,20 +196,27 @@ class Track extends React.Component {
     
 
     render(){
-        this.state.beatsArray[0] !== undefined ? console.log(this.state.beatsArray[0].audio_data) : console.log("ass")
+       console.log(this.state.selectedImage)
         return(
             <div className="track" >
-                <NavLink to={`tracks/${this.props.songObj.id}`}>
-                    <h1 onClick={this.trackClickHandler}>{this.state.songObj.title}</h1>
+                <NavLink className="link" to={`tracks/${this.props.songObj.id}`}>
+                    <h1 className="header" >{this.state.songObj.title}</h1>
                     <progress value={this.state.phase} max="5">10%</progress>
                 </NavLink>
-                <h2 onClick={this.trackClickHandler}>Reveal</h2>
                 <h3>Phase: {this.state.phase === 6 ? "Complete" :  this.state.phase}</h3>
-                <h4>Song description</h4>
+                <h5 onClick={this.trackClickHandler}>See progress</h5>
+
                 
                 {this.state.clicked === true ?
                 <div>
                 {this.state.phase === 1 ?
+                <>
+                <Container className="phasebox">
+                <Row>
+                <Col>
+                <p>Phase 1: Let's select the artwork for our song! This will serve as inspiration and a creative direction for our song!</p>
+                </Col>
+                <Col >
                 <PhaseOne 
                 songObj={this.state.songObj} 
                 referenceResults={this.referenceResults()} 
@@ -222,11 +230,23 @@ class Track extends React.Component {
                 pollResults={this.state.pollResults}
                 trackDataFlow={this.trackDataFlow}
                 />
-
+                </Col>
+                </Row>
+                </Container>
+                <hr></hr>
+                <p>Submit an image or vote on others!</p>
+                </>
                 :
                 this.state.phase === 2 ?
                 <>
-                <img alt="" src={this.state.selectedImage.img_url} width="125" height="100"/>
+                <img className="winning-image" alt="" src={this.state.selectedImage.img_url} width="250" height="250"/>
+                <Container className="phasebox">
+                <Row>
+                <Col>
+                <hr></hr>
+                <p>Phase 2: Let's select the beat for our song! This will serve as the musical foundation for our song. Once a beat is selected, artists will record their vocals over it.</p>
+                </Col>
+                <Col >
                 <PhaseTwo 
                 songObj={this.state.songObj}
                 beatsArray={this.state.beatsArray}
@@ -238,14 +258,22 @@ class Track extends React.Component {
                 pollId={this.state.currentPollId}
                 pollResults={this.state.pollResults}
                 />
-                <Upload upload={this.state.beatsArray[0].audio_data}/>
+                </Col>
+                </Row>
+                </Container>
+                <hr></hr>
                 </>
                 :
                 this .state.phase === 3 ?
                 <>
-                <img alt="" src={this.state.selectedImage.img_url} width="125" height="100"/>
-                <p>Beat winner: {this.state.selectedBeat.key_sig}</p>
-                <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
+                <img className="winning-image" alt="" src={this.state.selectedImage.img_url} width="250" height="250"/>
+                <Upload songObj={this.state.songObj} selectedBeat={this.state.selectedBeat} phase={this.state.phase} selectedVocal={this.state.selectedVocal} selectedMix={this.state.selectedMix} selectedMaster={this.state.selectedMaster}/>
+                <Container className="phasebox">
+                <Row>
+                <Col>
+                <p>Phase 3: Let's select the best vocal performance for our song!</p>
+                </Col>
+                <Col >
                 <PhaseThree
                 selectedBeat={this.state.selectedBeat} 
                 songObj={this.state.songObj}
@@ -257,25 +285,22 @@ class Track extends React.Component {
                 newPoll={this.pollClickHandler}
                 pollId={this.state.currentPollId}
                 />
+                                </Col>
+                </Row>
+                </Container>
+                <hr></hr>
                 </>
                 :
                 this.state.phase === 4 ?
                 <>
-                <img alt="" src={this.state.selectedImage.img_url} width="125" height="100"/>
-                <p>Beat winner: Beat by {this.state.selectedBeat.user.username}</p>
-                <ReactPlayer 
-                          className='react-player'
-                          url='https://soundcloud.com/clammyclams/im-god-lil-b'
-                          width='40%'
-                          height='30%' 
-                />
-                <p>Vocal winner: {this.state.selectedVocal.id}</p>
-                <ReactPlayer 
-                          className='react-player'
-                          url='https://soundcloud.com/thesixthkiss/lil-b-im-god'
-                          width='40%'
-                          height='30%' 
-                />
+                <img className="winning-image" alt="" src={this.state.selectedImage.img_url} width="250" height="250"/>
+                <Upload songObj={this.state.songObj} selectedBeat={this.state.selectedBeat} phase={this.state.phase} selectedVocal={this.state.selectedVocal} selectedMix={this.state.selectedMix} selectedMaster={this.state.selectedMaster}/>
+                <Container className="phasebox">
+                <Row>
+                <Col>
+                <p>Phase 4: Let's select the best mix for our song! Differences between mixes can be subtle, so just trust to your ears!</p>
+                </Col>
+                <Col >
                 <PhaseFour
                 selectedVocal={this.state.selectedVocal} 
                 songObj={this.state.songObj}
@@ -287,14 +312,22 @@ class Track extends React.Component {
                 newPoll={this.pollClickHandler}
                 pollId={this.state.currentPollId}
                 />
+                                                </Col>
+                </Row>
+                </Container>
+                <hr></hr>
                 </>
                 :
                 this.state.phase === 5 ?
                 <>
-                <img alt="" src={this.state.selectedImage.img_url} width="125" height="100"/>
-                <p>Beat winner: {this.state.selectedBeat.key_sig}</p>
-                <p>Vocal winner: {this.state.selectedVocal.id}</p>
-                <p>Mix winner: {this.state.selectedMix.id}</p>
+                <img className="winning-image" alt="" src={this.state.selectedImage.img_url} width="250" height="250"/>
+                <Upload songObj={this.state.songObj} selectedBeat={this.state.selectedBeat} phase={this.state.phase} selectedVocal={this.state.selectedVocal} selectedMix={this.state.selectedMix} selectedMaster={this.state.selectedMaster}/>
+                <Container className="phasebox">
+                <Row>
+                <Col>
+                <p>Phase 5: Let's select the best master for our song! Differences between masters can be subtle, so just trust to your ears!</p>
+                </Col>
+                <Col >
                 <PhaseFive 
                 selectedMix={this.state.selectedMix} 
                 songObj={this.state.songObj}
@@ -306,14 +339,15 @@ class Track extends React.Component {
                 newPoll={this.pollClickHandler}
                 pollId={this.state.currentPollId}
                 />
+                </Col>
+                </Row>
+                </Container>
+                <hr></hr>
                 </>
                 :
                 <>
-                <img alt="" src={this.state.selectedImage.img_url} width="125" height="100"/>
-                <p>Beat winner: {this.state.selectedBeat.key_sig}</p>
-                <p>Vocal winner: {this.state.selectedVocal.id}</p>
-                <p>Mix winner: {this.state.selectedMix.id}</p>
-                <p>Master winner: {this.state.selectedMaster.id}</p>
+                <img className="winning-image" alt="" src={this.state.selectedImage.img_url} width="250" height="250"/>
+                <Upload songObj={this.state.songObj} selectedBeat={this.state.selectedBeat} phase={this.state.phase} selectedVocal={this.state.selectedVocal} selectedMix={this.state.selectedMix} selectedMaster={this.state.selectedMaster}/>
                 </>
                 
 

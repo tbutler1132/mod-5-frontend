@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactAudioPlayer from 'react-audio-player';
 
 
 class LeaderBoardFive extends React.Component{
@@ -36,13 +37,20 @@ class LeaderBoardFive extends React.Component{
     }
 
     render(){
+      console.log(this.props.masterLeaderboard)
         return(
             this.props.masterLeaderboard !== undefined ?
             <div>
-                <h3>master Leaderboard</h3>
-                    <p>1. {this.props.masterLeaderboard[0].master.id}</p> 
+                <h3>Master Leaderboard</h3>
+                <ReactAudioPlayer
+                  src={`http://localhost:3000/${this.props.masterLeaderboard[0].master.audio_data.url}`}
+                  controls
+                  />  
                     <p>{this.props.masterLeaderboard[0].wins}</p> 
-                    <p>2. {this.props.masterLeaderboard[1].master.id} </p>
+                    <ReactAudioPlayer
+                  src={`http://localhost:3000/${this.props.masterLeaderboard[1].master.audio_data.url}`}
+                  controls
+                  />  
                     <p>{this.props.masterLeaderboard[1].wins}</p>
                     {/* <p>3. {this.props.masterLeaderboard[2].master.id} </p> 
                     <p>{this.props.masterLeaderboard[2].wins}</p> */}

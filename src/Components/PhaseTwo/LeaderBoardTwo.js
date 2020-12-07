@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactAudioPlayer from 'react-audio-player';
 
 class LeaderBoardTwo extends React.Component{
 
@@ -35,21 +36,32 @@ class LeaderBoardTwo extends React.Component{
     }
 
     render(){
+      console.log(this.props.beatLeaderboard)
         return(
             this.props.beatLeaderboard !== undefined ?
             <div>
                 <h3>Beat Leaderboard</h3>
-                    <p>1. {this.props.beatLeaderboard[0].beat.key_sig}</p> 
-                    <p>{this.props.beatLeaderboard[0].wins}</p> 
-                    <p>2. {this.props.beatLeaderboard[1].beat.key_sig} </p>
-                    <p>{this.props.beatLeaderboard[1].wins}</p>
-                    <p>3. {this.props.beatLeaderboard[2].beat.key_sig} </p> 
+                  {/* <ReactAudioPlayer
+                  src={`http://localhost:3000/${this.props.beatLeaderboard[0].beat.audio_data.url}`}
+                  controls
+                  /> */}
+                <p>{this.props.beatLeaderboard[0].wins}</p> 
+                <ReactAudioPlayer
+                src={`http://localhost:3000/${this.props.beatLeaderboard[1].beat.audio_data.url}`}
+                controls
+                />
+                <p>{this.props.beatLeaderboard[1].wins}</p>
+                <ReactAudioPlayer
+                src={`http://localhost:3000/${this.props.beatLeaderboard[2].beat.audio_data.url}`}
+                controls
+                />
                     <p>{this.props.beatLeaderboard[2].wins}</p>
                     <button onClick={this.incrementPhase}>Initiate Next Phase</button>
                     {/* <PhaseTwo /> */}
              </div>
             :
-            <p>Awaiting Results</p>
+            null
+            // <p>Awaiting Results</p>
             
         )
     }

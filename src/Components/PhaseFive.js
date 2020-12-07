@@ -34,6 +34,7 @@ class PhaseFive extends React.Component {
 
 
     render(){
+        console.log(this.props.mastersArray)
             return(
                 <>
                 <SubmitFormFive 

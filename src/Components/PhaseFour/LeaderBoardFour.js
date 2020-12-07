@@ -1,4 +1,6 @@
 import React from 'react'
+import ReactAudioPlayer from 'react-audio-player';
+import {Button} from 'react-bootstrap'
 
 
 class LeaderBoardFour extends React.Component{
@@ -38,15 +40,21 @@ class LeaderBoardFour extends React.Component{
     render(){
         return(
             this.props.mixLeaderboard !== undefined ?
-            <div>
-                <h3>mix Leaderboard</h3>
-                    <p>1. {this.props.mixLeaderboard[0].mix.id}</p> 
-                    <p>{this.props.mixLeaderboard[0].wins}</p> 
-                    <p>2. {this.props.mixLeaderboard[1].mix.id} </p>
-                    <p>{this.props.mixLeaderboard[1].wins}</p>
+            <div className="leaderboard">
+                <h3>Mix Leaderboard</h3>
+                <ReactAudioPlayer
+                  src={`http://localhost:3000/${this.props.mixLeaderboard[0].mix.audio_data.url}`}
+                  controls
+                  /> 
+                    <p>Votes: {this.props.mixLeaderboard[0].wins}</p> 
+                    <ReactAudioPlayer
+                  src={`http://localhost:3000/${this.props.mixLeaderboard[1].mix.audio_data.url}`}
+                  controls
+                  /> 
+                    <p>Votes: {this.props.mixLeaderboard[1].wins}</p>
                     {/* <p>3. {this.props.mixLeaderboard[2].mix.id} </p> 
                     <p>{this.props.mixLeaderboard[2].wins}</p> */}
-                    <button onClick={this.incrementPhase}>Initiate Next Phase</button>
+                    <Button variant="dark" onClick={this.incrementPhase}>Initiate Next Phase</Button>
                     {/* <PhaseTwo /> */}
              </div>
             :

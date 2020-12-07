@@ -1,5 +1,7 @@
 import React from 'react'
 import LeaderBoardTwo from './LeaderBoardTwo'
+import ReactAudioPlayer from 'react-audio-player';
+import {Button} from 'react-bootstrap'
 
 
 class PollTwo extends React.Component{
@@ -26,7 +28,7 @@ class PollTwo extends React.Component{
         this.setState({selectPollChoices: this.props.selectPollChoices()})
         const newPoll = {
             phase: this.props.songObj.phase,
-            user_id: 130
+            user_id: 202
         }
         const options = {
             method: "POST",
@@ -85,20 +87,27 @@ class PollTwo extends React.Component{
 
 
     render(){
+        console.log(this.state.selectPollChoices)
         return(
-            <div>
-                <button onClick={this.pollClickHandler}>Click to Create Poll!</button>
+            <div className="poll">
+                <Button variant="dark" onClick={this.pollClickHandler}>Click to Create Poll!</Button>
                 {this.state.clicked === true && this.state.selectPollChoices.length > 0 ?
                 <div>
-                    <p> alt={this.state.selectPollChoices[0].id} </p>
+                    <ReactAudioPlayer
+                    src={`http://localhost:3000/${this.state.selectPollChoices[0].audio_data.url}`}
+                    controls
+                    />
                     {this.state.selectPollChoices[0] !== null ? <button disabled={false} name="1" onClick={this.voteClickHandler}>Vote</button> : null}
-                    <p> alt={this.state.selectPollChoices[1].id} </p>
+                    <ReactAudioPlayer
+                  src={`http://localhost:3000/${this.state.selectPollChoices[1].audio_data.url}`}
+                  controls
+                  />
                     {this.state.selectPollChoices[1] !== null ? <button disabled={false} name="2" onClick={this.voteClickHandler}>Vote</button> : null}
                 </div>
                 :
                 null
                 }
-                <LeaderBoardTwo beatDataFlow={this.props.beatDataFlow} songObj={this.props.songObj} beatLeaderboard={this.state.beatLeaderboard}/>
+                <LeaderBoardTwo phase={this.props.phase} beatDataFlow={this.props.beatDataFlow} songObj={this.props.songObj} beatLeaderboard={this.state.beatLeaderboard}/>
             </div>
         )
     }

@@ -1,6 +1,6 @@
 import React from 'react'
 import LeaderBoardThree from './LeaderBoardThree'
-// import LeaderBoardTwo from './LeaderBoardTwo'
+import ReactAudioPlayer from 'react-audio-player';
 
 
 class PollThree extends React.Component{
@@ -28,7 +28,7 @@ class PollThree extends React.Component{
         this.setState({selectPollChoices: this.props.selectPollChoices()})
         const newPoll = {
             phase: this.props.songObj.phase,
-            user_id: 130
+            user_id: 202
         }
         const options = {
             method: "POST",
@@ -88,13 +88,19 @@ class PollThree extends React.Component{
 
     render(){
         return(
-            <div>
+            <div className="poll">
                 <button onClick={this.pollClickHandler}>Click to Create Poll!</button>
                 {this.state.clicked === true && this.state.selectPollChoices.length > 0 ?
                 <div>
-                    <p> alt={this.state.selectPollChoices[0].id} </p>
+                    <ReactAudioPlayer
+                    src={`http://localhost:3000/${this.state.selectPollChoices[0].audio_data.url}`}
+                    controls
+                    />
                     {this.state.selectPollChoices[0] !== null ? <button disabled={false} name="1" onClick={this.voteClickHandler}>Vote</button> : null}
-                    <p> alt={this.state.selectPollChoices[1].id} </p>
+                    <ReactAudioPlayer
+                    src={`http://localhost:3000/${this.state.selectPollChoices[1].audio_data.url}`}
+                    controls
+                    />
                     {this.state.selectPollChoices[1] !== null ? <button disabled={false} name="2" onClick={this.voteClickHandler}>Vote</button> : null}
                 </div>
                 :
